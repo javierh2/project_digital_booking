@@ -14,44 +14,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 // le dice a Spring que esta clase es un componente de lógica de negocio
-
 @Service
 public class RoomService {
 
-    // ── INYECCIÓN DE DEPENDENCIAS ──
-    // Le pedimos a Spring que nos dé el RoomRepository
-    // Usamos inyección por constructor porque es la mejor práctica:
-    //   → hace el código más fácil de testear
-    //   → deja claro qué dependencias necesita la clase
+    // inyeccion de dependencias
     private final RoomRepository roomRepository;
 
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
-    // ════════════════════════════════════════════
-    // OBTENER TODAS LAS HABITACIONES
-    // Historia de Usuario #10: listar productos en el admin
-    // ════════════════════════════════════════════
+
+    //listar productos
     public List<RoomResponseDTO> getAllRooms() {
         // findAll() trae TODAS las habitaciones de la DB
         // .stream() convierte la lista en un flujo para procesarla
         // .map() convierte cada Room → RoomResponseDTO
-        // .collect() junta todo en una lista nueva
+        // .collect() junta en una lista nueva
         return roomRepository.findAll()
                 .stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    // ════════════════════════════════════════════
-    // OBTENER UNA HABITACIÓN POR ID
-    // Historia de Usuario #5: ver detalle de producto
-    // ════════════════════════════════════════════
+
+    // obtener habitación por ID, si está vacío, lanzá su excepción
     public RoomResponseDTO getRoomById(Long id) {
-        // findById devuelve un Optional<Room>
-        // Optional = puede tener un valor o puede estar vacío
-        // orElseThrow = si está vacío, lanzá esta excepción
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Habitación no encontrada con id: " + id
@@ -60,41 +48,29 @@ public class RoomService {
         return convertToResponseDTO(room);
     }
 
-    // ════════════════════════════════════════════
-    // OBTENER HABITACIONES ALEATORIAS PARA EL HOME
-    // Historia de Usuario #4: máximo 10, aleatorios, sin repetir
-    // ════════════════════════════════════════════
+
+    // listar habitaciones, aleatorias, sin repetir
     public List<RoomResponseDTO> getRandomRooms() {
         // Traemos todas las habitaciones
         List<Room> allRooms = roomRepository.findAll();
 
         // Collections.shuffle() las mezcla aleatoriamente
-        // Esto garantiza que cada vez que cargue el Home
-        // las habitaciones aparezcan en orden diferente (HU #4)
         Collections.shuffle(allRooms);
 
-        // subList(0, Math.min(10, size)) toma máximo 10
-        // Math.min evita errores si hay menos de 10 habitaciones
+        // máximo 10 y evita errores si hay menos de 10 habitaciones
         return allRooms.subList(0, Math.min(10, allRooms.size()))
                 .stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    // ════════════════════════════════════════════
-    // CREAR UNA HABITACIÓN NUEVA
-    // Historia de Usuario #3: registrar producto
-    // ════════════════════════════════════════════
+
+    // registrar producto(habitación)
     @Transactional
-    // @Transactional significa:
-    //   → si todo sale bien: guarda los cambios en la DB (commit)
-    //   → si algo falla: deshace todo (rollback)
-    //   → evita que queden datos a medias en la DB
+    // @Transactional ,si funciona impacta en la DB, sino, hace rollback, evita datos incompletos en la DB
     public RoomResponseDTO createRoom(RoomRequestDTO requestDTO) {
 
-        // ── VALIDACIÓN: nombre único (HU #3) ──
-        // Antes de crear, verificamos que no exista otra
-        // habitación con el mismo nombre
+        // validacion de nombre único para no repetir
         if (roomRepository.findByName(requestDTO.getName()).isPresent()) {
             throw new DuplicateNameException(
                     "Ya existe una habitación con el nombre: '"
@@ -102,47 +78,38 @@ public class RoomService {
             );
         }
 
-        // Convertimos el DTO que llegó del frontend
-        // en una entidad Room para guardar en la DB
+
+        // DTO que llegó del frontend se convierte en una entidad Room para guardarse y persistir en la DB
         Room newRoom = convertToEntity(requestDTO);
+
 
         // save() hace el INSERT en la DB
         // nos devuelve la Room ya guardada con el id generado
         Room savedRoom = roomRepository.save(newRoom);
+
 
         // Convertimos la entidad guardada en DTO de respuesta
         // para devolvérselo al frontend
         return convertToResponseDTO(savedRoom);
     }
 
-    // ════════════════════════════════════════════
-    // ELIMINAR UNA HABITACIÓN
-    // Historia de Usuario #11: eliminar producto
-    // Hard Delete → borra físicamente de la DB
-    // como indica explícitamente la HU #11
-    // ════════════════════════════════════════════
+
+    // elimina un registro de la DB mediante HardDelete
     @Transactional
     public void deleteRoom(Long id) {
 
-        // Primero verificamos que la habitación existe
-        // Si no existe → lanzamos excepción → HTTP 404
+        // verificacion de habitación existente
         roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Habitación no encontrada con id: " + id
                 ));
 
         // Borra físicamente el registro de la DB
-        // Cumple exactamente con la HU #11:
-        // "el mismo debe eliminarse en la base de datos"
         roomRepository.deleteById(id);
     }
 
-    // ════════════════════════════════════════════
-    // MÉTODOS PRIVADOS: CONVERSIÓN ENTRE CAPAS
-    // Estos métodos solo los usa esta clase
-    // ════════════════════════════════════════════
 
-    // Convierte Room (entidad DB) → RoomResponseDTO (lo que ve el frontend)
+    // Convierte Room (entidad DB) a RoomResponseDTO (lo que ve el frontend)
     private RoomResponseDTO convertToResponseDTO(Room room) {
         return RoomResponseDTO.builder()
                 .id(room.getId())
@@ -155,7 +122,8 @@ public class RoomService {
                 .build();
     }
 
-    // Convierte RoomRequestDTO (lo que manda el frontend) → Room (entidad DB)
+
+    // Convierte RoomRequestDTO (lo que manda el frontend) a Room (entidad DB)
     private Room convertToEntity(RoomRequestDTO dto) {
         return Room.builder()
                 .name(dto.getName())
@@ -163,7 +131,7 @@ public class RoomService {
                 .category(dto.getCategory())
                 .price(dto.getPrice())
                 .imageRoom(dto.getImageRoom())
-                .active(true) // toda habitación nueva arranca activa
+                .active(true) // toda habitación nueva arranca en "active" (disponible)
                 .build();
     }
 }
