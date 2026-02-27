@@ -36,3 +36,16 @@ button {
   font-family: inherit;
   border: none;
 }
+
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.app-main {
+  flex: 1;
+  padding-top: 70px;
+}

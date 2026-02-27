@@ -17,7 +17,7 @@ const Header = () => {
         <header className="header">
             <div className="header__content">
 
-                /* logo y lema desde el css */
+                {/* logo y lema desde el css */}
                 <div
                     className="header__brand"
                     onClick={handleLogoClick}
@@ -36,7 +36,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                /* botones */
+                {/* botones */}
 
                 <div className="header__actions">
                     <button
