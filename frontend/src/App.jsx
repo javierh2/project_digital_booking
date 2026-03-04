@@ -7,9 +7,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header/Header'
 // import del footer
 import Footer from './components/Footer/Footer'
-// import del searchbar
-import SearchBar from './components/SearchBar/SearchBar'
 
+// import del componente Categories
+import Categories from './components/Categories/Categories'
+// import del componente SearchBar
+import SearchBar from './components/SearchBar/SearchBar'
 
 import './index.css'
 
@@ -27,7 +29,12 @@ const App = () => {
         <main className="app-main">
           <Routes>
 
-            <Route path="/" element={<h1>Home — YA TENDRÁS TU LUGAR </h1>} />
+            <Route path="/" element={
+              <>
+                <SearchBar />
+                <Categories />
+              </>
+            } />
 
           </Routes>
         </main>
