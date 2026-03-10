@@ -5,6 +5,9 @@ import Categories from '../../components/Categories/Categories'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import './Home.css'
 
+// import del servicio para obtener habitaciones aleatorias desde el backend
+import {getRandomRoom} from '../../services/roomService'
+
 
 const Home = () => {
 
@@ -20,11 +23,7 @@ const Home = () => {
         setLoading(true)
         setError(null)
         try {
-            const response = await fetch("http://localhost:8080/api/rooms")
-            if (!response.ok) {
-                throw new Error(`Error del servidor: ${response.status}`)
-            }
-            const data = await response.json()
+            const data = await getRandomRoom() // función del servicio roomService para obtener habitaciones aleatorias
             setRooms(data)
         } catch (err) {
             setError(err.message)
