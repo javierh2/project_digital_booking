@@ -1,3 +1,6 @@
+//Capa de servicios para manejar las peticiones relacionadas con las habitaciones. Se encarga de hacer las llamadas a la API y manejar los errores correspondientes.
+// comunicacion entre React y Spring Boot
+
 const BASE_URL = 'http://localhost:8080/api/rooms';
 
 export const getRandomRooms = async () => {

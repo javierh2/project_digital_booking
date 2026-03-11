@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { deleteRoom, getAllRooms } from '../../services/roomService'
 import RoomForm from '../../components/RoomForm/RoomForm'
-import '../Admin/Admin.css';
+import './Admin.css'
 
+// página de administración de habitaciones, muestra una tabla con las habitaciones existentes y permite crear nuevas habitaciones o eliminar las existentes, también muestra estadísticas como el total de habitaciones, el precio promedio y el precio más bajo
 const Admin = () => {
 
     const [rooms, setRooms] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    // estado para mostrar u ocultar el formulario de creación de habitaciones
     const [showForm, setShowForm] = useState(false)
 
-
+    // carga de habitaciones
     const fetchRooms = async () => {
         setLoading(true)
         setError(null)
@@ -24,14 +26,17 @@ const Admin = () => {
         }
     }
 
+     // carga inicial de habitaciones al montar el componente
     useEffect(() => {
         fetchRooms()
     }, [])
 
+    // función para manejar la creación de una nueva habitación, agrega la nueva habitación al estado de habitaciones para actualizar la tabla sin necesidad de recargar la página
     const handleRoomCreated = (newRoom) => {
         setRooms(prev => [...prev, newRoom])
     }
 
+    // función para manejar la eliminación de una habitación, muestra una confirmación antes de eliminar y actualiza el estado de habitaciones para reflejar los cambios en la tabla sin necesidad de recargar la página
     const handleDelete = async (id, name) => {
         const confirmation = window.confirm(
             `¿Estás seguro de querer eliminar "${name}"?\
@@ -48,9 +53,9 @@ const Admin = () => {
         }
     }
 
+    // cálculo de estadísticas para mostrar en la parte superior de la página
     const totalRooms = rooms.length
     const averagePrice = rooms.length > 0 ? Math.round(rooms.reduce((acc, room) => acc + room.price, 0) / rooms.length) : 0
-
     const minimumPrice = rooms.length > 0 ? Math.min(...rooms.map(room => room.price)) : 0
 
     return (

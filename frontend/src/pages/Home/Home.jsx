@@ -4,7 +4,6 @@ import RoomCard from '../../components/RoomCard/RoomCard'
 import Categories from '../../components/Categories/Categories'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import './Home.css'
-
 // import del servicio para obtener habitaciones aleatorias desde el backend
 import {getRandomRooms} from '../../services/roomService'
 
