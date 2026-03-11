@@ -38,8 +38,7 @@ public class Room {
     @Positive(message = "el precio debe ser positivo")
     private Double price;
 
-    @Column(nullable = false)
-    @NotBlank(message = "la imagen es necesaria")
+    @Column(nullable = true)
     private String imageRoom;
 
     @Column(nullable = false)

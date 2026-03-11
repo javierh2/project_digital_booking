@@ -32,6 +32,5 @@ public class RoomRequestDTO {
     @Positive(message = "El precio debe ser un valor positivo")
     private Double price;
 
-    @NotBlank(message = "La imagen es obligatoria")
     private String imageRoom;
 }
