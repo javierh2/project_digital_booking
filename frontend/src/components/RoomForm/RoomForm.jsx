@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import './RoomForm.css'
 import { createRoom } from '../../services/roomService'
@@ -70,7 +69,8 @@ const RoomForm = ({ onClose, onRoomCreated }) => {
         try {
             const roomData = {
                 ...formData,
-                price: Number(formData.price)
+                price: Number(formData.price),
+                imageRoom: formData.imageRoom.trim() === '' ? null : formData.imageRoom.trim()
             }
             const newRoom = await createRoom(roomData)
             onRoomCreated(newRoom)

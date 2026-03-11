@@ -25,7 +25,7 @@ export const getRoomById = async (id) => {
 }
 
 export const deleteRoom = async (id) => {
-    const response = await fetch (`$(BASE_URL}/${id}`, {
+    const response = await fetch (`${BASE_URL}/${id}`, {
         method: 'DELETE'
     })
     if (!response.ok){
@@ -39,7 +39,7 @@ export const createRoom = async (roomData) => {
     const response = await fetch(BASE_URL,{
         method:'POST',
         headers:{
-            'Content-Type':'aplication/json'
+            'Content-Type':'application/json'
         },
         body:JSON.stringify(roomData)
     })

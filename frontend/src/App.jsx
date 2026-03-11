@@ -9,6 +9,8 @@ import './index.css'
 import Footer from './components/Footer/Footer'
 //import de la página Home
 import Home from './pages/Home/Home'
+//import de la página Admin
+import Admin from './pages/Admin/Admin'
 
 
 const App = () => {
@@ -25,6 +27,7 @@ const App = () => {
         <main className="app-main">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
 
