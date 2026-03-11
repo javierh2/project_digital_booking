@@ -11,6 +11,8 @@ import Footer from './components/Footer/Footer'
 import Home from './pages/Home/Home'
 //import de la página Admin
 import Admin from './pages/Admin/Admin'
+//import de la página RoomDetail
+import RoomDetail from './pages/RoomDetail/RoomDetail'
 
 
 const App = () => {
@@ -28,6 +30,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/rooms/:id" element={<RoomDetail />} />
           </Routes>
         </main>
 
