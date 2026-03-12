@@ -5,8 +5,10 @@ import Categories from '../../components/Categories/Categories'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import './Home.css'
 // import del servicio para obtener habitaciones aleatorias desde el backend
-import {getRandomRooms} from '../../services/roomService'
+import { getRandomRooms } from '../../services/roomService'
+import Pagination from '../../components/Pagination/Pagination'
 
+const ROOMS_PER_PAGE = 6
 
 const Home = () => {
 
@@ -14,6 +16,8 @@ const Home = () => {
     const [rooms, setRooms] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+
+    const [currentPage, setCurrentPage] = useState(1)
 
     // función para cargar las habitaciones desde el backend dentro de un useEffect para que se ejecute al montar el componente - DRY - no repetir código de carga en otros componentes
     const fetchRooms = async () => {
@@ -36,34 +40,50 @@ const Home = () => {
         fetchRooms()
     }, [])
 
+    const totalPages = Math.ceil(rooms.length / ROOMS_PER_PAGE)
+    const startIndex = (currentPage - 1) * ROOMS_PER_PAGE
+    const currentRooms = rooms.slice(startIndex, startIndex + ROOMS_PER_PAGE)
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page)
+        document.getElementById('recommendations')?.scrollIntoView({
+            behavior: 'smooth'
+        })
+    }
+
     return (
         <div className="home">
-            <SearchBar />
 
+            <SearchBar />
             <Categories />
 
-            <section className="recommendations">
+            <section className="recommendations" id="recommendations">
                 <div className="recommendations__content">
+
                     <div className="recommendations__header">
                         <h2 className="recommendations__title">
-                            Recomendaciones!!
+                            Recomendaciones
                         </h2>
-                        <p className="recommendations__subtitle"> Habitaciones recomendadas </p>
+                        <p className="recommendations__subtitle">
+                            Habitaciones seleccionadas para vos
+                        </p>
                     </div>
 
-                    {/* Renderizado condicional */}
                     {loading ? (
                         <div className="recommendations__state">
                             <div className="recommendations__spinner" />
-                            <p className="recommendations__loading-text">Cargando habitaciones...</p>
+                            <p className="recommendations__loading-text">
+                                Cargando habitaciones...
+                            </p>
                         </div>
-                    ) : error  ? (
+
+                    ) : error ? (
                         <div className="recommendations__state">
                             <div className="recommendations__error">
                                 <span className="recommendations__error-icon">⚠️</span>
                                 <p className="recommendations__error-text">
-                                    No pudimos cargar las habitaciones!
-                                    Recarga la página o intenta nuevamente más tarde.
+                                    No pudimos cargar las habitaciones.
+                                    Verificá que el backend esté corriendo.
                                 </p>
                                 <button
                                     className="recommendations__retry-btn"
@@ -75,17 +95,27 @@ const Home = () => {
                         </div>
 
                     ) : (
-                        <div className="recommendations__grid">
-                            {rooms.map(room => (
-                                <RoomCard
-                                    key={room.id}
-                                    room={room}
-                                />
-                            ))}
-                        </div>
+                        <>
+                            <div className="recommendations__grid">
+                                {currentRooms.map(room => (
+                                    <RoomCard
+                                        key={room.id}
+                                        room={room}
+                                    />
+                                ))}
+                            </div>
+
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </>
                     )}
+
                 </div>
             </section>
+
         </div>
     )
 }
