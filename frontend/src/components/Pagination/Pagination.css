@@ -22,6 +22,11 @@
     justify-content: center;
 }
 
+.pagination__btn--text {
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
 .pagination__btn:hover:not(:disabled) {
     border-color: #C47E5A;
     color: #C47E5A;

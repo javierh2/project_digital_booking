@@ -9,6 +9,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return (
         <div className="pagination">
 
+            {/* Botón inicio */}
+            <button
+                className="pagination__btn pagination__btn--text"
+                onClick={() => onPageChange(1)}
+                disabled={currentPage === 1}
+            >
+                « Inicio
+            </button>
+
             {/* Botón anterior */}
             <button
                 className="pagination__btn"

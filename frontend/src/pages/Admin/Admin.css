@@ -202,6 +202,44 @@
     }
 }
 
+.admin--mobile-block {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F9F3EE;
+}
+
+.admin__mobile-message {
+    text-align: center;
+    padding: 40px;
+    max-width: 400px;
+}
+
+.admin__mobile-icon {
+    font-size: 56px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.admin__mobile-message h2 {
+    font-size: 22px;
+    color: #2C3E50;
+    margin-bottom: 12px;
+}
+
+.admin__mobile-message p {
+    font-size: 15px;
+    color: #9E8E82;
+    line-height: 1.6;
+}
+
+.admin__td-id {
+    color: #9E8E82;
+    font-size: 13px;
+    font-weight: 600;
+}
+
 @media (max-width: 768px) {
     .admin {
         padding: 20px 16px;

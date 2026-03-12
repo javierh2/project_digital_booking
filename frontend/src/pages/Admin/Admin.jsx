@@ -12,6 +12,14 @@ const Admin = () => {
     // estado para mostrar u ocultar el formulario de creación de habitaciones
     const [showForm, setShowForm] = useState(false)
 
+    // detecta si el ancho de pantalla es mobile
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768)
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
     // carga de habitaciones
     const fetchRooms = async () => {
         setLoading(true)
@@ -26,7 +34,7 @@ const Admin = () => {
         }
     }
 
-     // carga inicial de habitaciones al montar el componente
+    // carga inicial de habitaciones al montar el componente
     useEffect(() => {
         fetchRooms()
     }, [])
@@ -57,6 +65,19 @@ const Admin = () => {
     const totalRooms = rooms.length
     const averagePrice = rooms.length > 0 ? Math.round(rooms.reduce((acc, room) => acc + room.price, 0) / rooms.length) : 0
     const minimumPrice = rooms.length > 0 ? Math.min(...rooms.map(room => room.price)) : 0
+
+    // si el usuario accede desde un dispositivo móvil, se muestra un mensaje indicando que el panel de administración no está disponible en móvil
+    if (isMobile) {
+        return (
+            <div className="admin admin--mobile-block">
+                <div className="admin__mobile-message">
+                    <span className="admin__mobile-icon">🖥️</span>
+                    <h2>Panel no disponible en móvil</h2>
+                    <p>El panel de administración está diseñado para usarse desde una computadora. Por favor accedé desde un dispositivo de escritorio.</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="admin">

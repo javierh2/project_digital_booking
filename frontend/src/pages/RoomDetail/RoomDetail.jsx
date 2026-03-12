@@ -62,55 +62,75 @@ const RoomDetail = () => {
     return (
         <div className="room-detail">
 
-            {/* ── HERO CON IMAGEN ── */}
-            <div className="room-detail__hero">
-
-                {room.imageRoom ? (
-                    <img
-                        src={room.imageRoom}
-                        alt={room.name}
-                        className="room-detail__hero-image"
-                    />
-                ) : (
-                    <div className="room-detail__hero-placeholder">
-                        🏨
-                    </div>
-                )}
-
-                <div className="room-detail__hero-overlay" />
-
-                {room.category && (
-                    <span className="room-detail__hero-badge">
-                        {room.category}
-                    </span>
-                )}
-
+            {/* ── HEADER DEL DETALLE — título izquierda, volver derecha ── */}
+            <div className="room-detail__top-bar">
+                <h1 className="room-detail__name">{room.name}</h1>
                 <button
                     className="room-detail__back-btn"
                     onClick={() => navigate('/')}
                 >
-                    ← Volver
+                    Volver →
                 </button>
+            </div>
+
+            {/* ── GALERÍA PARTIDA: imagen principal izquierda + grilla derecha ── */}
+            <div className="room-detail__gallery">
+
+                {/* Imagen principal — mitad izquierda */}
+                <div className="room-detail__gallery-main">
+                    {room.imageRoom ? (
+                        <img
+                            src={room.imageRoom}
+                            alt={room.name}
+                            className="room-detail__gallery-img"
+                        />
+                    ) : (
+                        <div className="room-detail__gallery-placeholder">🏨</div>
+                    )}
+                </div>
+
+                {/* Grilla 2x2 — mitad derecha */}
+                <div className="room-detail__gallery-grid">
+                    {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="room-detail__gallery-cell">
+                            {room.imageRoom ? (
+                                <img
+                                    src={room.imageRoom}
+                                    alt={`${room.name} ${i + 2}`}
+                                    className="room-detail__gallery-img"
+                                />
+                            ) : (
+                                <div className="room-detail__gallery-placeholder">🏨</div>
+                            )}
+                            {/* "Ver más" solo en la última celda */}
+                            {i === 3 && (
+                                <div className="room-detail__ver-mas">
+                                    Ver más
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
 
             </div>
 
             {/* ── CONTENIDO ── */}
             <div className="room-detail__content">
 
-                <div className="room-detail__header">
-                    <h1 className="room-detail__name">{room.name}</h1>
-                    <div className="room-detail__price-row">
-                        <span className="room-detail__price">${room.price}</span>
-                        <span className="room-detail__price-label">por noche</span>
-                    </div>
+                <div className="room-detail__price-row">
+                    <span className="room-detail__price">${room.price}</span>
+                    <span className="room-detail__price-label">por noche</span>
                 </div>
+
+                {room.category && (
+                    <span className="room-detail__hero-badge">{room.category}</span>
+                )}
 
                 <div className="room-detail__divider" />
 
                 <p className="room-detail__section-title">Descripción</p>
                 <p className="room-detail__description">{room.description}</p>
 
-                {/* ── INFO CARDS ── */}
                 <div className="room-detail__info-grid">
                     <div className="room-detail__info-card">
                         <span className="room-detail__info-icon">🏷️</span>
