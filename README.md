@@ -271,6 +271,8 @@ http://localhost:5173
 ```
 
 ---
+## 🎥 Demos de la aplicación
 
-# 📦 Estado del Proyecto
+![Demo del home](assets/home.gif)
 
+![Demo de la creacion de habitación](assets/createroom.gif)
