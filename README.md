@@ -1,282 +1,291 @@
 
 # 🏨 Digital Booking — Room Hotel
-### Full Stack Web Application
-**Sprint 1 Implementation — Backend + Frontend**  
-Febrero — Marzo 2026
+
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-3.2-green)
+![React](https://img.shields.io/badge/React-19-blue)
+![Vite](https://img.shields.io/badge/Vite-7-purple)
+![Database](https://img.shields.io/badge/Database-H2-lightgrey)
+![Estado](https://img.shields.io/badge/Sprint-1%20Completado-success)
+
+Aplicación **Full Stack de reservas de habitaciones** desarrollada con **Java Spring Boot y React**.
+
+El proyecto simula una plataforma de **gestión y visualización de habitaciones de hotel**, permitiendo a los usuarios explorar productos y a los administradores gestionarlos mediante un panel de administración.
+
+Repositorio del proyecto:  
+https://github.com/javierh2/proyect_hotel_java_react_dh
 
 ---
 
-# 🚀 Overview
+# 📌 Descripción del Proyecto
 
-**Digital Booking – Room Hotel** is a full‑stack web application that simulates a hotel room booking platform.
+**Digital Booking – Room Hotel** es una aplicación web desarrollada como parte de un **desafío profesional de desarrollo Full Stack**.
 
-The project was developed during **Sprint 1**, implementing both:
+El objetivo fue construir la estructura base de una plataforma de reservas, implementando tanto el **backend como el frontend** y conectándolos mediante una **API REST**.
 
-- ⚙️ Backend REST API with **Java + Spring Boot**
-- 💻 Frontend SPA with **React + Vite**
-- 🔗 Real **end‑to‑end communication** between frontend and backend
-- 🧪 API and UI testing
+Durante el **Sprint 1** se implementaron funcionalidades clave como:
 
-This repository documents the architecture, features, and implementation of the system.
+• Visualización de habitaciones  
+• Detalle de cada habitación  
+• Panel de administración  
+• Crear habitaciones  
+• Eliminar habitaciones  
+• Paginación de resultados  
+• Galería de imágenes  
 
----
+Arquitectura general del sistema:
 
-# 🧱 Tech Stack
-
-## Backend
-- Java 21
-- Spring Boot 3.2.3
-- Spring Data JPA
-- Hibernate
-- H2 Database
-- Lombok
-
-## Frontend
-- React 19
-- Vite
-- React Router DOM
-
-## Testing
-- Postman
-- Manual component testing
-
-## Tools
-- Git
-- GitHub
-- IntelliJ IDEA
-- Visual Studio Code
+```
+React Frontend
+      ↓
+Spring Boot REST API
+      ↓
+Base de Datos H2
+```
 
 ---
 
-# 📊 Sprint Summary
+# 🧰 Tecnologías Utilizadas
 
-During Sprint 1, **11 User Stories** were implemented covering core platform functionality including:
-
-- UI layout
-- Room listing
-- Room detail view
-- Admin panel
-- API integration
-- Pagination
-- Product creation and deletion
-
-| Sprint | Period |
-|------|------|
-| Sprint 1 | Febrero – Marzo 2026 |
-
----
-
-# 🎨 Brand Identity
-
-## Logo
-
-The **Digital Booking** logo uses the initials **DB** with a navy background representing a modern digital platform.
-
-## Color Palette
-
-| Color | Code | Usage |
-|-----|-----|-----|
-Cream | #F9F3EE | Main background |
-Navy | #2C3E50 | Header / text |
-Terracotta | #C47E5A | Primary actions |
-Terracotta Dark | #B06A45 | Button hover |
-Gray | #9E8E82 | Secondary text |
-Blush | #EFE4D9 | Borders / placeholders |
+| Capa | Tecnología |
+|-----|-------------|
+Backend | Java 21 |
+Framework Backend | Spring Boot |
+Persistencia | Spring Data JPA / Hibernate |
+Base de Datos | H2 (en memoria) |
+Frontend | React 19 |
+Build Tool | Vite |
+Routing | React Router DOM |
+Testing | Postman |
+Control de versiones | Git |
+Repositorio | GitHub |
 
 ---
 
-# 📋 User Stories Implemented
+# 🎨 Identidad de Marca
 
-| ID | Feature |
-|---|---|
-HU1 | Global Header |
-HU2 | Home Page Layout |
-HU3 | Create Room |
-HU4 | Random Rooms |
-HU5 | Room Detail |
-HU6 | Image Gallery |
-HU7 | Global Footer |
-HU8 | Pagination |
-HU9 | Admin Panel |
-HU10 | List Rooms |
-HU11 | Delete Room |
+El proyecto incluye una **identidad visual definida** con logotipo y paleta de colores.
+
+| Color | Código | Uso |
+|------|------|------|
+Cream | #F9F3EE | Fondo principal |
+Navy | #2C3E50 | Header y textos |
+Terracotta | #C47E5A | Botones principales |
+Terracotta Dark | #B06A45 | Hover botones |
+Gray | #9E8E82 | Textos secundarios |
+Blush | #EFE4D9 | Bordes / placeholders |
+
+Estos colores buscan transmitir **calidez, elegancia y confianza**, alineados con la estética del sector hotelero.
 
 ---
 
-# ⚙️ Backend Architecture
+# 🧩 Funcionalidades Implementadas (Sprint 1)
+
+### Funcionalidades para usuarios
+
+- Header con navegación y branding
+- Home con buscador, categorías y recomendaciones
+- Visualización de habitaciones aleatorias
+- Página de detalle de habitación
+- Galería de imágenes
+- Paginación de resultados
+- Footer global
+
+### Funcionalidades para administradores
+
+- Panel de administración
+- Listar habitaciones
+- Crear nuevas habitaciones
+- Eliminar habitaciones
+
+---
+
+# ⚙️ Arquitectura Backend
 
 ```
 com.roomhotel.roomhotel
 
-config/
-controller/
-dto/
-entity/
-exception/
-repository/
-service/
+config
+controller
+dto
+entity
+exception
+repository
+service
 ```
 
-### Key Responsibilities
+Responsabilidades:
 
-**Controller**
-Handles HTTP requests.
+**Controller**  
+Gestiona las peticiones HTTP.
 
-**Service**
-Contains business logic.
+**Service**  
+Contiene la lógica de negocio.
 
-**Repository**
-Database access via JPA.
+**Repository**  
+Acceso a la base de datos mediante JPA.
 
-**DTO**
-Transfer objects between frontend and backend.
+**DTO**  
+Objetos de transferencia entre backend y frontend.
 
-**Entity**
-Database model.
+**Entity**  
+Representación de las tablas en la base de datos.
 
 ---
 
-# 🔌 REST API
+# 🔌 API REST
 
-| Method | Endpoint | Description |
+| Método | Endpoint | Descripción |
 |------|------|------|
-GET | /api/rooms | List all rooms |
-GET | /api/rooms/random | Random rooms |
-GET | /api/rooms/{id} | Room detail |
-POST | /api/rooms | Create room |
-DELETE | /api/rooms/{id} | Delete room |
+GET | /api/rooms | Listar habitaciones |
+GET | /api/rooms/random | Habitaciones aleatorias |
+GET | /api/rooms/{id} | Detalle de habitación |
+POST | /api/rooms | Crear habitación |
+DELETE | /api/rooms/{id} | Eliminar habitación |
 
 ---
 
-# 💻 Frontend Architecture
+# 💻 Estructura Frontend
 
 ```
-src/
-
-components/
-Header
-Footer
-SearchBar
-Categories
-RoomCard
-RoomForm
-Pagination
-
-pages/
-Home
-Admin
-RoomDetail
-
-services/
-roomService.js
+src
+ ├── components
+ ├── pages
+ └── services
 ```
 
----
+Componentes principales:
 
-# 🧭 Application Routes
+- Header
+- Footer
+- RoomCard
+- RoomForm
+- Pagination
+- Categories
+- SearchBar
 
-| Route | Page |
-|------|------|
-/ | Home |
-/rooms/:id | Room Detail |
-/admin | Admin Panel |
-/administracion | Admin Panel (alt) |
+Páginas:
 
----
-
-# ⚛ React Hooks Used
-
-| Hook | Purpose |
-|---|---|
-useState | Component state |
-useEffect | API calls |
-useNavigate | Navigation |
-useParams | Dynamic route parameters |
+- Home
+- Admin
+- RoomDetail
 
 ---
 
-# 🔄 End‑to‑End Data Flow
+# 🔄 Flujo de Datos
 
-1️⃣ User interacts with UI  
-2️⃣ React calls **roomService.js**  
-3️⃣ HTTP request sent to backend  
-4️⃣ Spring Controller receives request  
-5️⃣ Service applies business logic  
-6️⃣ Repository queries database  
-7️⃣ Response returned as DTO  
-8️⃣ React updates UI state
+1️⃣ El usuario interactúa con la interfaz  
+2️⃣ React realiza la petición mediante `roomService.js`  
+3️⃣ Spring Boot recibe la petición en el Controller  
+4️⃣ El Service aplica la lógica de negocio  
+5️⃣ El Repository consulta la base de datos  
+6️⃣ Se devuelve la respuesta en formato JSON  
+7️⃣ React actualiza la interfaz automáticamente
 
 ---
 
 # 🧪 Testing
 
-## API Testing
+Las pruebas se realizaron utilizando **Postman** y testing manual de componentes.
 
-Performed using **Postman** verifying:
+### API
 
-- HTTP response codes
-- JSON structure
-- Error handling
-- Validation
+✔ Listar habitaciones  
+✔ Habitaciones aleatorias  
+✔ Obtener habitación por ID  
+✔ Crear habitación  
+✔ Validación de nombre duplicado  
+✔ Eliminar habitación  
 
-Endpoints tested include:
+### UI
 
-- GET rooms
-- GET random rooms
-- GET room by id
-- POST create room
-- DELETE room
+Componentes probados:
 
----
-
-## Component Testing
-
-Manual testing in development environment.
-
-| Component | Result |
-|---|---|
-Header | ✔ Correct |
-Footer | ✔ Correct |
-SearchBar | ✔ Correct |
-Categories | ✔ Correct |
-RoomCard | ✔ Correct |
-RoomForm | ✔ Correct |
-Pagination | ✔ Correct |
-Home | ✔ Correct |
-Admin | ✔ Correct |
-RoomDetail | ✔ Correct |
+- Header
+- Footer
+- Home
+- RoomCard
+- RoomDetail
+- Admin Panel
+- Pagination
 
 ---
 
-# 🧰 Development Workflow
+# 🚀 Cómo ejecutar el proyecto
 
-The project follows a **professional Git workflow**.
+## 1️⃣ Clonar el repositorio
 
-| Tool | Purpose |
-|---|---|
-Git | Version control |
-GitHub | Remote repository |
-IntelliJ | Backend development |
-VS Code | Frontend development |
-Postman | API testing |
+```bash
+git clone https://github.com/javierh2/proyect_hotel_java_react_dh.git
+cd proyect_hotel_java_react_dh
+```
 
 ---
 
-# 📦 Project Status
+# Backend (Spring Boot)
 
-✅ Sprint 1 Completed  
+## Requisitos
 
-Future work may include:
+- Java 21
+- Maven
 
-- Authentication system
-- Room booking system
-- Database migration to PostgreSQL
-- Deployment
-- Unit testing
+## Ejecutar backend
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+El servidor se ejecutará en:
+
+```
+http://localhost:8080
+```
 
 ---
 
-# 👨‍💻 Author
+# Frontend (React)
 
-Project developed as part of a **Full Stack development program**.
+## Requisitos
 
+- Node.js
+- npm
+
+## Instalar dependencias
+
+```bash
+cd frontend
+npm install
+```
+
+## Ejecutar aplicación
+
+```bash
+npm run dev
+```
+
+La aplicación se abrirá en:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 📦 Estado del Proyecto
+
+✅ Sprint 1 completado
+
+Futuras mejoras posibles:
+
+- Sistema de autenticación
+- Sistema de reservas
+- Migración a base de datos persistente
+- Despliegue en cloud
+- Tests automatizados
+
+---
+
+# 👨‍💻 Autor
+
+Proyecto desarrollado por **Javier Mora Baiz** como parte de un desafío profesional de desarrollo **Full Stack**.
