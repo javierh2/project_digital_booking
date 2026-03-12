@@ -12,6 +12,9 @@ const Admin = () => {
     // estado para mostrar u ocultar el formulario de creación de habitaciones
     const [showForm, setShowForm] = useState(false)
 
+    // controla qué vista se renderiza: 'menu' o 'list'
+    const [view, setView] = useState('menu')
+
     // detecta si el ancho de pantalla es mobile
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
     useEffect(() => {
@@ -79,40 +82,99 @@ const Admin = () => {
         )
     }
 
+    if (view === 'menu') {
+        return (
+            <div className="admin">
+                <div className="admin__content">
+
+                    <div className="admin__header">
+                        <div className="admin__header-info">
+                            <h1>Panel de Administración</h1>
+                            <p>Gestioná las habitaciones de Digital Booking</p>
+                        </div>
+                    </div>
+
+                    {/* estadísticas rápidas */}
+                    {!loading && !error && (
+                        <div className="admin__stats">
+                            <div className="admin__stat-card">
+                                <div className="admin__stat-number">{totalRooms}</div>
+                                <div className="admin__stat-label">Habitaciones totales</div>
+                            </div>
+                            <div className="admin__stat-card">
+                                <div className="admin__stat-number">${averagePrice}</div>
+                                <div className="admin__stat-label">Precio promedio</div>
+                            </div>
+                            <div className="admin__stat-card">
+                                <div className="admin__stat-number">${minimumPrice}</div>
+                                <div className="admin__stat-label">Precio más bajo</div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* menú de funciones — cada card es una función disponible */}
+                    <div className="admin__menu">
+
+                        {/* HU #10: botón "Lista de productos" que lleva a la tabla */}
+                        <button
+                            className="admin__menu-card"
+                            onClick={() => setView('list')}
+                        >
+                            <span className="admin__menu-icon">📋</span>
+                            <span className="admin__menu-title">Lista de productos</span>
+                            <span className="admin__menu-desc">Visualizá todas las habitaciones disponibles</span>
+                        </button>
+
+                        {/* HU #3: botón "Agregar producto" que abre el modal */}
+                        <button
+                            className="admin__menu-card"
+                            onClick={() => setShowForm(true)}
+                        >
+                            <span className="admin__menu-icon">➕</span>
+                            <span className="admin__menu-title">Agregar producto</span>
+                            <span className="admin__menu-desc">Registrá una nueva habitación en el catálogo</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {showForm && (
+                    <RoomForm
+                        onClose={() => setShowForm(false)}
+                        onRoomCreated={handleRoomCreated}
+                    />
+                )}
+            </div>
+        )
+    }
+
+    // ── VISTA LISTA DE PRODUCTOS ────────────────────────────────────────────
+    // HU #10: tabla con todos los productos — columnas Id, Imagen, Nombre, Categoría, Precio, Acciones
     return (
         <div className="admin">
             <div className="admin__content">
 
                 <div className="admin__header">
                     <div className="admin__header-info">
-                        <h1>Panel de Administración</h1>
-                        <p>Gestioná las habitaciones de Digital Booking</p>
+                        <h1>Lista de productos</h1>
+                        <p>Todas las habitaciones disponibles en Digital Booking</p>
                     </div>
-
-                    <button
-                        className="admin__btn-add"
-                        onClick={() => setShowForm(true)}
-                    >
-                        + Nueva habitación
-                    </button>
+                    <div className="admin__header-actions">
+                        <button
+                            className="admin__btn-add"
+                            onClick={() => setShowForm(true)}
+                        >
+                            + Agregar producto
+                        </button>
+                        <button
+                            className="admin__btn-back"
+                            onClick={() => setView('menu')}
+                        >
+                            ← Volver al menú
+                        </button>
+                    </div>
                 </div>
-
-                {!loading && !error && (
-                    <div className="admin__stats">
-                        <div className="admin__stat-card">
-                            <div className="admin__stat-number">{totalRooms}</div>
-                            <div className="admin__stat-label">Habitaciones totales</div>
-                        </div>
-                        <div className="admin__stat-card">
-                            <div className="admin__stat-number">${averagePrice}</div>
-                            <div className="admin__stat-label">Precio promedio</div>
-                        </div>
-                        <div className="admin__stat-card">
-                            <div className="admin__stat-number">${minimumPrice}</div>
-                            <div className="admin__stat-label">Precio más bajo</div>
-                        </div>
-                    </div>
-                )}
 
                 {loading ? (
                     <div className="admin__state">
@@ -131,16 +193,19 @@ const Admin = () => {
                         <table className="admin__table">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Imagen</th>
                                     <th>Nombre</th>
-                                    <th className="hide-mobile">Categoría</th>
-                                    <th className="hide-mobile">Precio</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {rooms.map(room => (
                                     <tr key={room.id}>
+
+                                        <td className="admin__td-id">#{room.id}</td>
 
                                         <td>
                                             {room.imageRoom ? (
@@ -164,11 +229,11 @@ const Admin = () => {
 
                                         <td>{room.name}</td>
 
-                                        <td className="hide-mobile">
+                                        <td>
                                             <span className="admin__badge">{room.category}</span>
                                         </td>
 
-                                        <td className="hide-mobile">
+                                        <td>
                                             <span className="admin__price">${room.price}</span>
                                         </td>
 
@@ -196,7 +261,6 @@ const Admin = () => {
                     onRoomCreated={handleRoomCreated}
                 />
             )}
-
         </div>
     )
 }

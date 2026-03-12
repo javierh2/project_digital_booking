@@ -10,7 +10,6 @@
     margin: 0 auto;
 }
 
-
 .admin__header {
     display: flex;
     align-items: center;
@@ -32,6 +31,11 @@
     color: #9E8E82;
 }
 
+.admin__header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
 
 .admin__btn-add {
     display: flex;
@@ -50,6 +54,23 @@
 
 .admin__btn-add:hover {
     background-color: #B06A45;
+}
+
+.admin__btn-back {
+    padding: 12px 24px;
+    background-color: transparent;
+    border: 2px solid #2C3E50;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C3E50;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.admin__btn-back:hover {
+    background-color: #2C3E50;
+    color: #F9F3EE;
 }
 
 .admin__stats {
@@ -80,6 +101,49 @@
     color: #9E8E82;
 }
 
+.admin__menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.admin__menu-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 28px 32px;
+    background-color: #FFFFFF;
+    border: 2px solid #EFE4D9;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.05);
+}
+
+.admin__menu-card:hover {
+    border-color: #C47E5A;
+    box-shadow: 0 4px 16px rgba(196, 126, 90, 0.15);
+    transform: translateY(-2px);
+}
+
+.admin__menu-icon {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.admin__menu-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2C3E50;
+}
+
+.admin__menu-desc {
+    font-size: 13px;
+    color: #9E8E82;
+    line-height: 1.4;
+}
 
 .admin__table-wrapper {
     background-color: #FFFFFF;
@@ -112,7 +176,6 @@
     vertical-align: middle;
 }
 
-
 .admin__table tbody tr:nth-child(even) {
     background-color: #FAFAF8;
 }
@@ -121,6 +184,11 @@
     background-color: #F9F3EE;
 }
 
+.admin__td-id {
+    color: #9E8E82;
+    font-size: 13px;
+    font-weight: 600;
+}
 
 .admin__room-img {
     width: 56px;
@@ -140,7 +208,6 @@
     font-size: 18px;
 }
 
-
 .admin__badge {
     display: inline-block;
     padding: 3px 10px;
@@ -151,12 +218,10 @@
     font-weight: 600;
 }
 
-
 .admin__price {
     font-weight: 700;
     color: #C47E5A;
 }
-
 
 .admin__btn-delete {
     padding: 7px 16px;
@@ -174,7 +239,6 @@
     background-color: #E74C3C;
     color: #FFFFFF;
 }
-
 
 .admin__state {
     padding: 60px 20px;
@@ -232,27 +296,4 @@
     font-size: 15px;
     color: #9E8E82;
     line-height: 1.6;
-}
-
-.admin__td-id {
-    color: #9E8E82;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-@media (max-width: 768px) {
-    .admin {
-        padding: 20px 16px;
-    }
-
-    .admin__header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-
-
-    .admin__table .hide-mobile {
-        display: none;
-    }
 }

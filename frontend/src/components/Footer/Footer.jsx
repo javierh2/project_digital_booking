@@ -44,7 +44,7 @@ const Footer = () => {
                     <div className="footer__brand-info">
                         <span className="footer__brand-name">Digital Booking</span>
                         <span className="footer__copyright">
-                            © {currentYear} Digital Booking. Todos los derechos reservados.
+                            © {currentYear} Digital Booking Software. Todos los derechos reservados.
                         </span>
                     </div>
                 </div>

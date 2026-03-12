@@ -1,5 +1,6 @@
 .room-detail {
     width: 100%;
+    padding-top: 70px;
     min-height: 100vh;
     background-color: #F9F3EE;
 }
@@ -42,10 +43,8 @@
     background: linear-gradient(transparent, rgba(44, 62, 80, 0.8));
 }
 
-.room-detail__hero-badge {
-    position: absolute;
-    top: 24px;
-    left: 64px;
+/* nuevo badge dentro de la top‑bar */
+.room-detail__category-badge {
     background-color: #C47E5A;
     color: #FFFFFF;
     font-size: 12px;
@@ -54,12 +53,13 @@
     border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+
+    /* lo separamos del título y del botón */
+    margin-left: 16px;
+    white-space: nowrap;
 }
 
 .room-detail__back-btn {
-    position: absolute;
-    top: 24px;
-    right: 64px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -351,10 +351,6 @@
     .room-detail__hero {
         height: 260px;
         padding: 0 20px;
-    }
-
-    .room-detail__hero-badge {
-        left: 32px;
     }
 
     .room-detail__back-btn {

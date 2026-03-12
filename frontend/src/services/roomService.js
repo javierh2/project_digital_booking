@@ -47,7 +47,7 @@ export const createRoom = async (roomData) => {
         body:JSON.stringify(roomData)
     })
     if (!response.ok){
-        throw new Error(`Eror ${response.status}: no se pudo crear la habitación`)
+        throw new Error(`Error ${response.status}: no se pudo crear la habitación`)
     }
     return response.json()
 }

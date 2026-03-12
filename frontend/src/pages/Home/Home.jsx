@@ -62,10 +62,10 @@ const Home = () => {
 
                     <div className="recommendations__header">
                         <h2 className="recommendations__title">
-                            Recomendaciones
+                            Recommendations
                         </h2>
                         <p className="recommendations__subtitle">
-                            Habitaciones seleccionadas para vos
+                            Rooms selected for you
                         </p>
                     </div>
 
@@ -73,7 +73,7 @@ const Home = () => {
                         <div className="recommendations__state">
                             <div className="recommendations__spinner" />
                             <p className="recommendations__loading-text">
-                                Cargando habitaciones...
+                                Loading rooms...
                             </p>
                         </div>
 
@@ -82,14 +82,14 @@ const Home = () => {
                             <div className="recommendations__error">
                                 <span className="recommendations__error-icon">⚠️</span>
                                 <p className="recommendations__error-text">
-                                    No pudimos cargar las habitaciones.
-                                    Verificá que el backend esté corriendo.
+                                    We were unable to load the rooms.
+                                    Verify that the backend is running.
                                 </p>
                                 <button
                                     className="recommendations__retry-btn"
                                     onClick={fetchRooms}
                                 >
-                                    Reintentar
+                                    Retry
                                 </button>
                             </div>
                         </div>

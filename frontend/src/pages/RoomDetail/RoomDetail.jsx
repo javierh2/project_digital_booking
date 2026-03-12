@@ -16,6 +16,10 @@ const RoomDetail = () => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const fetchRoom = async () => {
             try {
                 const data = await getRoomById(id)
@@ -65,11 +69,18 @@ const RoomDetail = () => {
             {/* ── HEADER DEL DETALLE — título izquierda, volver derecha ── */}
             <div className="room-detail__top-bar">
                 <h1 className="room-detail__name">{room.name}</h1>
+
+                {room.category && (
+                    <span className="room-detail__category-badge">
+                        {room.category}
+                    </span>
+                )}
+
                 <button
                     className="room-detail__back-btn"
                     onClick={() => navigate('/')}
                 >
-                    Volver →
+                    ← Volver
                 </button>
             </div>
 
