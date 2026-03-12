@@ -6,7 +6,6 @@
 ![React](https://img.shields.io/badge/React-19-blue)
 ![Vite](https://img.shields.io/badge/Vite-7-purple)
 ![Database](https://img.shields.io/badge/Database-H2-lightgrey)
-![Estado](https://img.shields.io/badge/Sprint-1%20Completado-success)
 
 Aplicación **Full Stack de reservas de habitaciones** desarrollada con **Java Spring Boot y React**.
 
@@ -275,18 +274,3 @@ http://localhost:5173
 
 # 📦 Estado del Proyecto
 
-✅ Sprint 1 completado
-
-Futuras mejoras posibles:
-
-- Sistema de autenticación
-- Sistema de reservas
-- Migración a base de datos persistente
-- Despliegue en cloud
-- Tests automatizados
-
----
-
-# 👨‍💻 Autor
-
-Proyecto desarrollado por **Javier Mora Baiz** como parte de un desafío profesional de desarrollo **Full Stack**.
