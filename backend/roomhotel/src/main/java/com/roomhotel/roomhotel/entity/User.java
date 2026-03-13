@@ -1,4 +1,80 @@
 package com.roomhotel.roomhotel.entity;
 
-public class User {
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
+@Entity
+@Table(name = "USERS")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+// implementacion necesaria por contrato para que Spring Security sepa si es un user con auth,con permisos y si está activo
+public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String firstName;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String lastName;
+
+    //TODO
+    @Email
+    @NotBlank
+    @Column(nullable = false,unique = true)
+    private String email;
+
+    //TODO
+    @NotBlank
+    @Column(nullable = false)
+    private String password;
+
+    //TODO
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    // metodos de UserDetails implementados para que User sea autosuficiente
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        //convierte enum Role en el formato que Spring Security entiende
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername(){
+        //usa getUsername como identificador y devuelve el email com identificador unico
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
+
+
 }
