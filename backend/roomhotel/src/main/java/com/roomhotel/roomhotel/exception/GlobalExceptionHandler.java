@@ -69,10 +69,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(response);
     }
 
+
+    // manejo específico para errores de validación en endpoints de auth (login y register)
     @ExceptionHandler(MethodNotAllowedException.class)
     public ResponseEntity<Map<String,String>> handleValidationErrors(
             MethodArgumentNotValidException exception
     ) {
+        // extraigo los errores de validación y los pongo en un Map con el formato { "email": "el email es obligatorio", "password": "la contraseña es obligatoria" }
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(),error.getDefaultMessage())
@@ -80,12 +83,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-
+    // manejo específico para errores de credenciales inválidas en login,
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String,String>> handleBadCredentials(
             BadCredentialsException exception
     ){
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)// 401
                 .body(Map.of("error", "Email o contraseña incorrectos"));
     }
 }

@@ -1,7 +1,6 @@
 package com.roomhotel.roomhotel.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -43,7 +42,6 @@ public class Room {
 
     @Column(nullable = false)
     private Boolean active = true;
-
 
 }
 

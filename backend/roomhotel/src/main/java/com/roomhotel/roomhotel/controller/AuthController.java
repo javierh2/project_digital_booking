@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 //endpoints de auth "/api/auth", publicos y definidos en SecurityConfig
 public class AuthController {
 
+    //inyeccion de dependencias
     private final AuthService authService;
 
+    //registro de usuario, recibe un RegisterRequestDTO con los datos del usuario, valida y devuelve un AuthResponseDTO con el token JWT
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> register(
             @Valid @RequestBody RegisterRequestDTO request
@@ -30,6 +32,7 @@ public class AuthController {
     }
 
 
+    //login de usuario, recibe un LoginRequestDTO con el email y password, valida y devuelve un AuthResponseDTO con el token JWT
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(
             @Valid @RequestBody LoginRequestDTO request

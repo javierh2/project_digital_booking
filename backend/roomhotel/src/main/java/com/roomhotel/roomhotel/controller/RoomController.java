@@ -2,7 +2,6 @@ package com.roomhotel.roomhotel.controller;
 
 import com.roomhotel.roomhotel.dto.RoomRequestDTO;
 import com.roomhotel.roomhotel.dto.RoomResponseDTO;
-import com.roomhotel.roomhotel.exception.GlobalExceptionHandler;
 import com.roomhotel.roomhotel.service.RoomService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

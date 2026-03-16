@@ -35,18 +35,18 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
 
-    //TODO
+    // validacion de email, no puede ser nulo y debe ser unico
     @Email
     @NotBlank
     @Column(nullable = false,unique = true)
     private String email;
 
-    //TODO
+    // validacion de password, no puede ser nulo
     @NotBlank
     @Column(nullable = false)
     private String password;
 
-    //TODO
+    // rol del user, no puede ser nulo y se guarda como string en la base de datos
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -64,15 +64,17 @@ public class User implements UserDetails {
         return email;
     }
 
+
+    // el password se obtiene del campo password
     @Override
     public boolean isAccountNonExpired() { return true; }
-
+    // los usuarios están activos, no bloqueados ni expirados
     @Override
     public boolean isAccountNonLocked() { return true; }
-
+    // las credenciales no expiran, el token JWT se encarga de eso
     @Override
     public boolean isCredentialsNonExpired() { return true; }
-
+    // el user está habilitado
     @Override
     public boolean isEnabled() { return true; }
 
