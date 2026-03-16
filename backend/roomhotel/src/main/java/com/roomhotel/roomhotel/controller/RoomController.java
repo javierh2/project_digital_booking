@@ -16,7 +16,7 @@ import java.util.List;
 @RestController // pedidos en http y devuelven en formato JSON
 @RequestMapping("/api/rooms") // prefijo de URL para todos los endpoints "/api/rooms"
 @CrossOrigin(origins = "http://localhost:5173") //conexion de React con su puerto al backend
-public class RoomController {
+public class  RoomController {
 
     // inyeccion de dependencias
     // Controller necesita el Service para delegar la lógica
