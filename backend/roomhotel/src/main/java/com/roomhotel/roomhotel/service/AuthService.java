@@ -58,7 +58,7 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         //envio de confirmacion luego del guardado de user, si falla no el envio no anula el registro
-        emailServices.sendRegistrationConfirmation(savedUser.getEmail(), savedUser.getPassword());
+        emailServices.sendRegistrationConfirmation(savedUser.getEmail(), savedUser.getFirstName());
 
         // jwt generado  y dto cumple el envio del user y el token
         String token = generateToken(savedUser);

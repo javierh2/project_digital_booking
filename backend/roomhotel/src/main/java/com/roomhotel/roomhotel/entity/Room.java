@@ -41,6 +41,7 @@ public class Room {
     private String imageRoom;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean active = true;
 
 }

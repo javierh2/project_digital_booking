@@ -60,11 +60,9 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername(){
-        //usa getUsername como identificador y devuelve el email com identificador unico
+        //usa getUsername como identificador y devuelve el s com identificador unico
         return email;
     }
-
-
     // el password se obtiene del campo password
     @Override
     public boolean isAccountNonExpired() { return true; }
@@ -77,6 +75,10 @@ public class User implements UserDetails {
     // el user está habilitado
     @Override
     public boolean isEnabled() { return true; }
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
 
 }
