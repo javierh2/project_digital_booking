@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 
 // JwtFilter intercepta cada solicitud entrante para verificar si incluye un token JWT válido.
@@ -27,10 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserRepository userRepository;
     private final String jwtSecret;
 
-    // Constructor manual en lugar de @RequiredArgsConstructor porque necesitamos
-    // combinar inyección por constructor (UserRepository) con @Value (jwtSecret).
-    // Lombok no incluye campos anotados con @Value en el constructor generado,
-    // lo que causa que jwtSecret llegue null en runtime y el token falle silenciosamente.
+    // Constructor manual para combinar inyección por constructor (UserRepository) con @Value (jwtSecret).
     public JwtFilter(UserRepository userRepository,
         @Value("${jwt.secret}") String jwtSecret) {
         this.userRepository = userRepository;

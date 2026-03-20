@@ -47,7 +47,7 @@ public class SecurityConfig {
     }
 
     // DaoAuthenticationProvider conecta UserDetailsService con PasswordEncoder.
-    // jecuta el proceso de: buscar usuario → comparar contraseña hasheada.
+    // ejecuta el proceso de: buscar usuario → comparar contraseña hasheada.
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
