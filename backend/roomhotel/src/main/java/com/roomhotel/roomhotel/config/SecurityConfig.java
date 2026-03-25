@@ -86,10 +86,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/rooms/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rooms/random").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+
                         // POST y DELETE de rooms requieren ser ADMIN
                         // hasRole() agrega el prefijo ROLE_ automáticamente
                         .requestMatchers(HttpMethod.POST, "/api/rooms").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/rooms/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/categories").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasRole("ADMIN")
 
                         // Cualquier otro endpoint requiere estar autenticado
                         .anyRequest().authenticated()

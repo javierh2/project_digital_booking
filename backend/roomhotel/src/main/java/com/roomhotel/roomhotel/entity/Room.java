@@ -28,9 +28,9 @@ public class Room {
     @NotBlank(message = "la informacion es necesaria")
     private String description;
 
-    @Column(nullable = false)
-    @NotBlank(message = "la categoria es obligatoria")
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = true)
+    private Category category;
 
     @Column(nullable = false)
     @NotNull(message = "el precio es obligatiorio")

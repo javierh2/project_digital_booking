@@ -24,8 +24,7 @@ public class RoomRequestDTO {
     @NotBlank(message = "La descripción es obligatoria")
     private String description;
 
-    @NotBlank(message = "La categoría es obligatoria")
-    private String category;
+    private Long categoryId;
 
     @NotNull(message = "El precio es obligatorio")
     @Positive(message = "El precio debe ser un valor positivo")

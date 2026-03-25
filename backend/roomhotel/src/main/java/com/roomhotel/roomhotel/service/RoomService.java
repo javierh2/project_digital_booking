@@ -1,10 +1,13 @@
 package com.roomhotel.roomhotel.service;
 
+import com.roomhotel.roomhotel.dto.CategoryResponseDTO;
 import com.roomhotel.roomhotel.dto.RoomRequestDTO;
 import com.roomhotel.roomhotel.dto.RoomResponseDTO;
+import com.roomhotel.roomhotel.entity.Category;
 import com.roomhotel.roomhotel.entity.Room;
 import com.roomhotel.roomhotel.exception.DuplicateNameException;
 import com.roomhotel.roomhotel.exception.ResourceNotFoundException;
+import com.roomhotel.roomhotel.repository.CategoryRepository;
 import com.roomhotel.roomhotel.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +22,11 @@ public class RoomService {
 
     // inyeccion de dependencias
     private final RoomRepository roomRepository;
+    private final CategoryRepository categoryRepository;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository) {
         this.roomRepository = roomRepository;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -110,12 +115,22 @@ public class RoomService {
 
 
     // Convierte Room (entidad DB) a RoomResponseDTO (lo que ve el frontend)
+    // si el room no tiene categoria designada devuelve null en ese campo
     private RoomResponseDTO convertToResponseDTO(Room room) {
+        CategoryResponseDTO categoryDTO = null;
+        if (room.getCategory() != null){
+            categoryDTO = CategoryResponseDTO.builder()
+                    .id(room.getCategory().getId())
+                    .title(room.getCategory().getTitle())
+                    .description(room.getCategory().getDescription())
+                    .imageUrl(room.getCategory().getImageUrl())
+                    .build();
+        }
         return RoomResponseDTO.builder()
                 .id(room.getId())
                 .name(room.getName())
                 .description(room.getDescription())
-                .category(room.getCategory())
+                .category(categoryDTO)
                 .price(room.getPrice())
                 .imageRoom(room.getImageRoom())
                 .active(room.getActive())
@@ -124,11 +139,20 @@ public class RoomService {
 
 
     // Convierte RoomRequestDTO (lo que manda el frontend) a Room (entidad DB)
+    // si el front manda un categoryId, se buscar la categoria en la DB
+    // si no existe, el room se crea sin categoria
     private Room convertToEntity(RoomRequestDTO dto) {
+        Category category = null;
+        if (dto.getCategoryId() != null){
+            category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Categoria no encontrada con id: " + dto.getCategoryId()
+                    ));
+        }
         return Room.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .category(dto.getCategory())
+                .category(category)
                 .price(dto.getPrice())
                 .imageRoom(dto.getImageRoom())
                 .active(true) // toda habitación nueva arranca en "active" (disponible)

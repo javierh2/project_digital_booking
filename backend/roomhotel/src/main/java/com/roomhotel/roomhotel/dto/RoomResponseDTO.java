@@ -19,7 +19,7 @@ public class RoomResponseDTO {
     private Long id;
     private String name;
     private String description;
-    private String category;
+    private CategoryResponseDTO category;
     private Double price;
     private String imageRoom;
     private Boolean active;
