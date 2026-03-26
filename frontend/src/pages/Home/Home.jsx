@@ -84,12 +84,15 @@ const Home = () => {
         <div className="home">
 
             <SearchBar />
+
+            {/* sección de filtro de categorías — HU #20 */}
             <section className="categories-filter">
                 <div className="categories-filter__content">
 
                     <div className="categories-filter__header">
                         <h2 className="categories-filter__title">Categorías</h2>
                         {selectedCategory && (
+                            // botón para limpiar el filtro — HU #20
                             <button
                                 className="categories-filter__clear"
                                 onClick={() => handleCategorySelect(null)}
@@ -125,9 +128,7 @@ const Home = () => {
                 <div className="recommendations__content">
 
                     <div className="recommendations__header">
-                        <h2 className="recommendations__title">
-                            Recommendations
-                        </h2>
+                        <h2 className="recommendations__title">Recommendations</h2>
                         <p className="recommendations__subtitle">
                             {selectedCategory
                                 ? `${filteredRooms.length} habitación${filteredRooms.length !== 1 ? 'es' : ''} encontrada${filteredRooms.length !== 1 ? 's' : ''}`
@@ -139,9 +140,7 @@ const Home = () => {
                     {loading ? (
                         <div className="recommendations__state">
                             <div className="recommendations__spinner" />
-                            <p className="recommendations__loading-text">
-                                Loading rooms...
-                            </p>
+                            <p className="recommendations__loading-text">Loading rooms...</p>
                         </div>
 
                     ) : error ? (
@@ -149,17 +148,14 @@ const Home = () => {
                             <div className="recommendations__error">
                                 <span className="recommendations__error-icon">⚠️</span>
                                 <p className="recommendations__error-text">
-                                    We were unable to load the rooms.
-                                    Verify that the backend is running.
+                                    We were unable to load the rooms. Verify that the backend is running.
                                 </p>
-                                <button
-                                    className="recommendations__retry-btn"
-                                    onClick={fetchRooms}
-                                >
+                                <button className="recommendations__retry-btn" onClick={fetchRooms}>
                                     Retry
                                 </button>
                             </div>
                         </div>
+
                     ) : (
                         <>
                             {currentRooms.length === 0 ? (
@@ -190,6 +186,7 @@ const Home = () => {
                             )}
                         </>
                     )}
+
                 </div>
             </section>
 
