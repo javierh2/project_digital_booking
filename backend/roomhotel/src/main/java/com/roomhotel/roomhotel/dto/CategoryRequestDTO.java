@@ -3,6 +3,8 @@ package com.roomhotel.roomhotel.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+
+// lo que manda el frontend al crear o editar una categoría
 @Data
 public class CategoryRequestDTO {
 

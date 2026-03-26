@@ -28,6 +28,8 @@ public class Room {
     @NotBlank(message = "la informacion es necesaria")
     private String description;
 
+
+    // muchos "rooms" pueden pertenecer a una "category", con una columna con clave foránea en la tabla ROOMS
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = true)
     private Category category;

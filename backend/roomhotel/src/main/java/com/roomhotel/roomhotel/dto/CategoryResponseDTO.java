@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// lo que devuelve el backend al frontend
+// incluyendo el id para que el front pueda referenciar la categoría
 @Data
 @Builder
 @NoArgsConstructor

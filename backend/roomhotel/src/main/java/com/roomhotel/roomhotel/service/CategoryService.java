@@ -15,8 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
 
+
     private final CategoryRepository categoryRepository;
 
+    // devuelve todas las categorias, en el home y en el formulario de creación de "rooms"
     public List<CategoryResponseDTO> getAllCategories(){
         return categoryRepository.findAll()
                 .stream()
@@ -24,12 +26,14 @@ public class CategoryService {
                 .toList();
     }
 
+    // devuelve una categoria por id
     public CategoryResponseDTO getCategoryById(Long id){
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada con id: " + id));
         return convertToResponseDTO(category);
     }
 
+    // crear nueva categoria, solo "ADMIN"
     public CategoryResponseDTO createCategory(CategoryRequestDTO dto) {
         if (categoryRepository.existsByTitle(dto.getTitle())) {
             throw new DuplicateNameException("Ya existe una categoria con el título: " + dto.getTitle());
@@ -43,6 +47,7 @@ public class CategoryService {
         return convertToResponseDTO(categoryRepository.save(category));
     }
 
+    // eliminar una categoria, solo "ADMIN"
     public void deleteCategoryById(Long id){
         if(!categoryRepository.existsById(id)){
             throw new ResourceNotFoundException("Categoria no encontrada con id: " + id);
@@ -50,6 +55,7 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    // convierte entidad a DTO
     private CategoryResponseDTO convertToResponseDTO(Category category){
         return CategoryResponseDTO.builder()
                 .id(category.getId())

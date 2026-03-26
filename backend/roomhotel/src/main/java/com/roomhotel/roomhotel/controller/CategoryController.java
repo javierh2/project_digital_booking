@@ -19,6 +19,8 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    // endpoint publico, cualquier usuario puede ver las categorías
+    // usado en Home y Form de habitación
     @GetMapping
     public ResponseEntity<List<CategoryResponseDTO>> getAllCategories(){
         return ResponseEntity.ok(categoryService.getAllCategories());
@@ -29,6 +31,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
+    // solo "ADMIN", protegido en SecurityConfig
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(
             @Valid @RequestBody CategoryRequestDTO request
