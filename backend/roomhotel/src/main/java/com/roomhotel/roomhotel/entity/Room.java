@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "rooms")
@@ -45,6 +48,16 @@ public class Room {
     @Column(nullable = false)
     @Builder.Default
     private Boolean active = true;
+
+    // crea una tabla intermedia para referenciar los 2 id´s, de room y de feature, Room es el dueño de la relación
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "room_features",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "feature_id")
+    )
+    @Builder.Default
+    private Set<Feature> features = new HashSet<>();
 
 }
 

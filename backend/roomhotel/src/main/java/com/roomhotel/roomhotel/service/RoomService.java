@@ -1,19 +1,24 @@
 package com.roomhotel.roomhotel.service;
 
 import com.roomhotel.roomhotel.dto.CategoryResponseDTO;
+import com.roomhotel.roomhotel.dto.FeatureResponseDTO;
 import com.roomhotel.roomhotel.dto.RoomRequestDTO;
 import com.roomhotel.roomhotel.dto.RoomResponseDTO;
 import com.roomhotel.roomhotel.entity.Category;
+import com.roomhotel.roomhotel.entity.Feature;
 import com.roomhotel.roomhotel.entity.Room;
 import com.roomhotel.roomhotel.exception.DuplicateNameException;
 import com.roomhotel.roomhotel.exception.ResourceNotFoundException;
 import com.roomhotel.roomhotel.repository.CategoryRepository;
+import com.roomhotel.roomhotel.repository.FeatureRepository;
 import com.roomhotel.roomhotel.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 // le dice a Spring que esta clase es un componente de lógica de negocio
@@ -23,10 +28,12 @@ public class RoomService {
     // inyeccion de dependencias
     private final RoomRepository roomRepository;
     private final CategoryRepository categoryRepository;
+    private final FeatureRepository featureRepository;
 
-    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository) {
+    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository, FeatureRepository featureRepository) {
         this.roomRepository = roomRepository;
         this.categoryRepository = categoryRepository;
+        this.featureRepository = featureRepository;
     }
 
 
@@ -126,6 +133,17 @@ public class RoomService {
                     .imageUrl(room.getCategory().getImageUrl())
                     .build();
         }
+
+        // conversion del set<Feature> a list<FeatureResponseDTO> para el frontend
+        List<FeatureResponseDTO> featureDTOs = room.getFeatures()
+                .stream()
+                .map(feature -> FeatureResponseDTO.builder()
+                        .id(feature.getId())
+                        .name(feature.getName())
+                        .icon(feature.getIcon())
+                        .build())
+                .collect(Collectors.toList());
+
         return RoomResponseDTO.builder()
                 .id(room.getId())
                 .name(room.getName())
@@ -134,6 +152,7 @@ public class RoomService {
                 .price(room.getPrice())
                 .imageRoom(room.getImageRoom())
                 .active(room.getActive())
+                .features(featureDTOs)
                 .build();
     }
 
@@ -149,6 +168,20 @@ public class RoomService {
                             "Categoria no encontrada con id: " + dto.getCategoryId()
                     ));
         }
+
+        // con las features, buscamos cada id en la DB, con manejo de lista vacia o featureIds nulo y manejo de error
+        Set<Feature> features = new HashSet<>();
+        if (dto.getFeatureIds() != null && !dto.getFeatureIds().isEmpty()){
+            for (Long featureId : dto.getFeatureIds()) {
+                Feature feature = featureRepository.findById(featureId)
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Característica no encontrada con id: " + featureId
+                        ));
+                features.add(feature);
+            }
+        }
+
+
         return Room.builder()
                 .name(dto.getName())
                 .description(dto.getDescription())
@@ -156,6 +189,7 @@ public class RoomService {
                 .price(dto.getPrice())
                 .imageRoom(dto.getImageRoom())
                 .active(true) // toda habitación nueva arranca en "active" (disponible)
+                .features(features)
                 .build();
     }
 }

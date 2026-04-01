@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 // creacion de objetos de forma legible
 @Getter
 @Setter
@@ -23,4 +25,8 @@ public class RoomResponseDTO {
     private Double price;
     private String imageRoom;
     private Boolean active;
+
+    // lista de características de ROOM
+    @Builder.Default
+    private List<FeatureResponseDTO> features = List.of();
 }

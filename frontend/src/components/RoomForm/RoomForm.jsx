@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './RoomForm.css'
 import { createRoom } from '../../services/roomService'
+import { getAllCategories } from '../../services/categoryService'
 
 // modal para crear una nueva habitación, se muestra al hacer click en el botón "Nueva Habitación" en la página de administración de habitaciones
 const RoomForm = ({ onClose, onRoomCreated }) => {
@@ -18,6 +19,27 @@ const RoomForm = ({ onClose, onRoomCreated }) => {
 
     // estado para controlar si el formulario se está enviando, para deshabilitar el botón de submit y mostrar un mensaje de "Guardando..." mientras se espera la respuesta del backend
     const [submitting, setSubmitting] = useState(false)
+
+    // estado de las categorias que vienen del back
+    // y se agrega las que se crean desde admin sincronizandolas desde la API
+    const [categories, setCategories] = useState({})
+    const [loadingCategories, setLoadingCategories] = useState(true)
+
+
+    // modal para cargar categorias, no necesita de token ,ya que, es de acceso público
+    useEffect(()=>{
+        const fetchCategories = async () =>{
+            try{
+                const data = await getAllCategories()
+                setCategories(data)
+            }catch(error){
+                console.error("Error al cargar las categorías: ", error) // si falla la carga, el form sigue funcionando
+            }finally{
+                setLoadingCategories(false) // falle o no, se deja de mostrar el loading
+            }
+        }
+        fetchCategories()
+    },[])
 
 
     // función para manejar los cambios en los campos del formulario, actualiza el estado formData y borra el error correspondiente si es que existe
@@ -70,9 +92,11 @@ const RoomForm = ({ onClose, onRoomCreated }) => {
             const roomData = {
                 ...formData,
                 price: Number(formData.price),
+                categoryId: Number(formData.categoryId),
                 imageRoom: formData.imageRoom.trim() === '' ? null : formData.imageRoom.trim()
             }
             const newRoom = await createRoom(roomData)
+            // aviso a "Admin" que hay una nueva habitaición para que actualice la tabla, sin recargar la pág. completa
             onRoomCreated(newRoom)
             onClose()
         } catch (error) {
@@ -162,18 +186,31 @@ const RoomForm = ({ onClose, onRoomCreated }) => {
                         <label className="room-form__label">
                             Categoría <span>*</span>
                         </label>
+
+
+
+                        //TODO
                         <select
                             name="categoryId"
                             className={`room-form__select ${errors.categoryId ? 'room-form__select--error' : ''}`}
                             value={formData.categoryId}
                             onChange={handleChange}
+                            disabled={loadingCategories}
                         >
-                            <option value="">Seleccioná...</option>
-                            <option value="1">Suite</option>
-                            <option value="2">Estándar</option>
-                            <option value="3">Departamento</option>
-                            <option value="4">Hostel</option>
-                            <option value="5">Bed & Breakfast</option>
+                            <option value="">
+                                {loadingCategories ? "Cargando..." : "Selecciona..."}
+                            </option>
+                            {categories.map(category =>(
+                                <option key={category.id} value={category.id}>
+                                    {category.title}
+                                </option>
+                            ))}
+                            {!loadingCategories && categories.length === 0 && (
+                                <option value="" disabled>Sin categorias disponibles</option>
+                            )}
+
+
+
                         </select>
                         {errors.categoryId && (
                             <span className="room-form__error">{errors.categoryId}</span>
@@ -208,7 +245,7 @@ const RoomForm = ({ onClose, onRoomCreated }) => {
                     <button
                         className="room-form__btn-submit"
                         onClick={handleSubmit}
-                        disabled={submitting}
+                        disabled={submitting || loadingCategories} //TODO
                     >
                         {submitting ? 'Guardando...' : 'Guardar habitación'}
                     </button>

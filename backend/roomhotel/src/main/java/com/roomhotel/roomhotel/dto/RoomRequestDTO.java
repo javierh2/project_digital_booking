@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
+import java.util.List;
+
 /*
 DTO  viaja entre frontend y backend
    → solo los campos necesarios
@@ -31,4 +33,6 @@ public class RoomRequestDTO {
     private Double price;
 
     private String imageRoom;
+
+    private List<Long> featureIds;
 }

@@ -85,7 +85,7 @@ public class SecurityConfig {
                         // las habitaciones pueden ser vistas por cualquier usuario, incluso sin autenticación (para el catálogo público)
                         .requestMatchers(HttpMethod.GET, "/api/rooms/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rooms/random").permitAll()
-
+                        .requestMatchers(HttpMethod.GET, "api/features/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
 
                         // POST y DELETE de rooms requieren ser ADMIN
@@ -95,6 +95,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/categories").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/features").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/features/**").hasRole("ADMIN")
 
                         // Cualquier otro endpoint requiere estar autenticado
                         .anyRequest().authenticated()
