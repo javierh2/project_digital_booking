@@ -99,6 +99,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/features").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/features/**").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/users/*/role").hasRole("ADMIN")
+
                         // Cualquier otro endpoint requiere estar autenticado
                         .anyRequest().authenticated()
                 )
