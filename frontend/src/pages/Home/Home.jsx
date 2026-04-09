@@ -24,7 +24,7 @@ const Home = () => {
     // id de la categoría seleccionada, null significa "todas"
     const [selectedCategory, setSelectedCategory] = useState(null)
 
-    // función para cargar las habitaciones desde el backend dentro de un useEffect para que se ejecute al montar el componente - DRY - no repetir código de carga en otros componentes
+    // función para cargar las habitaciones desde el backend dentro de un useEffect para que se ejecute al montar el componente
     const fetchRooms = async () => {
         //reset de estados para cada nueva carga
         setLoading(true)
@@ -85,14 +85,14 @@ const Home = () => {
 
             <SearchBar />
 
-            {/* sección de filtro de categorías — HU #20 */}
+            {/* sección de filtro de categorías */}
             <section className="categories-filter">
                 <div className="categories-filter__content">
 
                     <div className="categories-filter__header">
                         <h2 className="categories-filter__title">Categories</h2>
                         {selectedCategory && (
-                            // botón para limpiar el filtro — HU #20
+                            // botón para limpiar el filtro
                             <button
                                 className="categories-filter__clear"
                                 onClick={() => handleCategorySelect(null)}

@@ -11,13 +11,14 @@ const Login = () => {
     const { login } = useAuth()
 
     const [formData, setFormData] = useState({
-        email: '',
-        password: ''
+        email: "",
+        password: ""
     })
 
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
 
+    // función para manejar el cambio en los campos del formulario, actualiza el estado del formulario y limpia los errores correspondientes
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
@@ -26,13 +27,14 @@ const Login = () => {
         }
     }
 
+    // función para validar el formulario, verifica que el email y la contraseña no estén vacíos, y actualiza el estado de errores
     const validate = () => {
         const newErrors = {}
         if (!formData.email.trim()) {
-            newErrors.email = 'El email es obligatorio'
+            newErrors.email = "El email es obligatorio"
         }
         if (!formData.password) {
-            newErrors.password = 'La contraseña es obligatoria'
+            newErrors.password = "La contraseña es obligatoria"
         }
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -44,7 +46,7 @@ const Login = () => {
         try {
             const data = await loginUser(formData)
             login(data)
-            navigate('/')
+            navigate("/")
         } catch (error) {
             // mensaje de error  cuando las credenciales son incorrectas
             setErrors({ general: error.message })
@@ -55,7 +57,7 @@ const Login = () => {
 
     // permite enviar el formulario con Enter
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter') handleSubmit()
+        if (e.key === "Enter") handleSubmit()
     }
 
     return (

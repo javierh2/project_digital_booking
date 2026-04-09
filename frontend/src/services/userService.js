@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/api/users'
+const BASE_URL = "http://localhost:8080/api/users"
 
 // lee el token del localStorage usando la key "db_user" — igual que featureService
 // los endpoints de /api/users requieren ROLE_ADMIN
@@ -12,11 +12,11 @@ const getToken = () => {
 export const getAllUsers = async () => {
     const response = await fetch(BASE_URL, {
         headers: {
-            'Authorization': `Bearer ${getToken()}`
+            "Authorization": `Bearer ${getToken()}`
         }
     })
     if (!response.ok) {
-        throw new Error('Error al obtener los usuarios')
+        throw new Error("Error al obtener los usuarios")
     }
     return response.json()
 }
@@ -25,16 +25,16 @@ export const getAllUsers = async () => {
 // newRole es el string del enum: "ROLE_ADMIN" o "ROLE_USER"
 export const updateUserRole = async (id, newRole) => {
     const response = await fetch(`${BASE_URL}/${id}/role`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
+            "Content-Type": 'application/json',
+            "Authorization": `Bearer ${getToken()}`
         },
         // el backend espera RoleUpdateRequestDTO con campo "role"
         body: JSON.stringify({ role: newRole })
     })
     if (!response.ok) {
-        throw new Error('Error al actualizar el rol')
+        throw new Error("Error al actualizar el rol")
     }
     return response.json()
 }

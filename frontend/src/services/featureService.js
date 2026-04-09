@@ -20,7 +20,7 @@ export const getAllFeatures = async () => {
 // dto = { name: string, icon: string }
 export const createFeature = async (dto) => {
     const response = await fetch(BASE_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${getToken()}`

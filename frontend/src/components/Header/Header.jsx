@@ -18,7 +18,7 @@ const Header = () => {
 
     // función para manejar el click en el logo, navega a la página principal ("/")
     const handleLogoClick = () => {
-        navigate('/')
+        navigate("/")
     }
 
     // cierra el dropdown si el usuario hace click fuera de él
@@ -28,22 +28,22 @@ const Header = () => {
                 setDropdownOpen(false)
             }
         }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
     // función para manejar el logout del usuario, cierra sesión, cierra el dropdown y navega a la página principal
     const handleLogout = () => {
         logout()
         setDropdownOpen(false)
-        navigate('/')
+        navigate("/")
     }
 
     // función para obtener las iniciales del usuario
     const getInitials = () => {
-        if (!user) return ''
-        const first = user.firstName?.charAt(0).toUpperCase() || ''
-        const last = user.lastName?.charAt(0).toUpperCase() || ''
+        if (!user) return ""
+        const first = user.firstName?.charAt(0).toUpperCase() || ""
+        const last = user.lastName?.charAt(0).toUpperCase() || ""
         return `${first}${last}`
     }
 

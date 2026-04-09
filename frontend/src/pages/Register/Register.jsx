@@ -36,20 +36,20 @@ const Register = () => {
         const newErrors = {}
 
         if (!formData.firstName.trim()) {
-            newErrors.firstName = 'El nombre es obligatorio'
+            newErrors.firstName = "El nombre es obligatorio"
         }
         if (!formData.lastName.trim()) {
-            newErrors.lastName = 'El apellido es obligatorio'
+            newErrors.lastName = "El apellido es obligatorio"
         }
         if (!formData.email.trim()) {
-            newErrors.email = 'El email es obligatorio'
+            newErrors.email = "El email es obligatorio"
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = 'El email debe tener un formato válido'
+            newErrors.email = "El email debe tener un formato válido"
         }
         if (!formData.password) {
-            newErrors.password = 'La contraseña es obligatoria'
+            newErrors.password = "La contraseña es obligatoria"
         } else if (formData.password.length < 6) {
-            newErrors.password = 'La contraseña debe tener al menos 6 caracteres'
+            newErrors.password = "La contraseña debe tener al menos 6 caracteres"
         }
 
         setErrors(newErrors)

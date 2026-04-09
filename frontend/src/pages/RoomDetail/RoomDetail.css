@@ -43,7 +43,6 @@
     background: linear-gradient(transparent, rgba(44, 62, 80, 0.8));
 }
 
-/* nuevo badge dentro de la top‑bar */
 .room-detail__category-badge {
     background-color: #C47E5A;
     color: #FFFFFF;
@@ -53,8 +52,6 @@
     border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-
-    /* lo separamos del título y del botón */
     margin-left: 16px;
     white-space: nowrap;
 }
@@ -232,7 +229,6 @@
     background-color: #B06A45;
 }
 
-/* TOP BAR — título izquierda, volver derecha */
 .room-detail__top-bar {
     display: flex;
     align-items: center;
@@ -308,7 +304,6 @@
     font-size: 40px;
 }
 
-/* "Ver más" en región inferior derecha de la última celda */
 .room-detail__ver-mas {
     position: absolute;
     bottom: 12px;
@@ -323,7 +318,6 @@
     border: 1px solid #2C3E50;
 }
 
-/* Responsive galería */
 @media (max-width: 768px) {
     .room-detail__gallery {
         flex-direction: column;
