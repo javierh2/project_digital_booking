@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
-// import del componente RoomCard,Categories y SearchBar
 import RoomCard from '../../components/RoomCard/RoomCard'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import './Home.css'
-// import del servicio para obtener habitaciones aleatorias desde el backend
-import { getRandomRooms } from '../../services/roomService'
+import { getAllRooms } from '../../services/roomService'
 import Pagination from '../../components/Pagination/Pagination'
 import { getAllCategories } from '../../services/categoryService'
 
@@ -12,25 +10,26 @@ const ROOMS_PER_PAGE = 6
 
 const Home = () => {
 
-    // estados para manejar la información de las habitaciones, el estado de carga y los errores
     const [rooms, setRooms] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-
     const [currentPage, setCurrentPage] = useState(1)
-
-    // categorías para el filtro
     const [categories, setCategories] = useState([])
-    // id de la categoría seleccionada, null significa "todas"
-    const [selectedCategory, setSelectedCategory] = useState(null)
 
-    // función para cargar las habitaciones desde el backend dentro de un useEffect para que se ejecute al montar el componente
+    // HU #20 — filtro múltiple
+    // cambiamos de un id único (null | number) a un Set de ids
+    // Set vacío significa "todas las categorías" — equivale al null anterior
+    // usamos Set por las mismas razones que en RoomForm:
+    // has(), add(), delete() son O(1) y no permite duplicados
+    const [selectedCategories, setSelectedCategories] = useState(new Set())
+
     const fetchRooms = async () => {
-        //reset de estados para cada nueva carga
         setLoading(true)
         setError(null)
         try {
-            const data = await getRandomRooms() // función del servicio roomService para obtener habitaciones aleatorias
+            // getAllRooms en lugar de getRandomRooms — trae todas las habitaciones
+            // así el filtro opera sobre el pool completo y ninguna desaparece
+            const data = await getAllRooms()
             setRooms(data)
         } catch (err) {
             setError(err.message)
@@ -54,25 +53,42 @@ const Home = () => {
         fetchCategories()
     }, [])
 
-
-    // manejo de seleccion de categorias
+    // toggle de categoría — si ya estaba seleccionada la deselecciona, si no la agrega
+    // mismo patrón que handleFeatureToggle en RoomForm
     const handleCategorySelect = (categoryId) => {
-        setSelectedCategory(prev => prev === categoryId ? null : categoryId)
+        setSelectedCategories(prev => {
+            const next = new Set(prev)
+            if (next.has(categoryId)) {
+                next.delete(categoryId)
+            } else {
+                next.add(categoryId)
+            }
+            return next
+        })
+        // volvemos a página 1 al cambiar el filtro
+        // evita quedar en una página que ya no existe con el nuevo filtro
         setCurrentPage(1)
     }
 
-    // primero filtra según la selección después estructura la paginación
-    const filteredRooms = selectedCategory
-        ? rooms.filter(room => room.category?.id === selectedCategory)
+    // limpia todos los filtros de una vez
+    const handleClearFilters = () => {
+        setSelectedCategories(new Set())
+        setCurrentPage(1)
+    }
+
+    // filtramos según el Set de categorías seleccionadas
+    // si el Set está vacío mostramos todas
+    // si tiene ids, mostramos solo las rooms cuya category.id esté en el Set
+    const filteredRooms = selectedCategories.size > 0
+        ? rooms.filter(room =>
+            room.category && selectedCategories.has(room.category.id)
+        )
         : rooms
 
-
-    // lógica para paginar y filtrar las habitaciones - cálculo de total de páginas, índice de inicio y habitaciones a mostrar en la página actual
     const totalPages = Math.ceil(filteredRooms.length / ROOMS_PER_PAGE)
     const startIndex = (currentPage - 1) * ROOMS_PER_PAGE
     const currentRooms = filteredRooms.slice(startIndex, startIndex + ROOMS_PER_PAGE)
 
-    // función para manejar el cambio de página desde el componente Pagination - actualiza el estado de la página actual y hace scroll suave a la sección de recomendaciones
     const handlePageChange = (page) => {
         setCurrentPage(page)
         document.getElementById('recommendations')?.scrollIntoView({
@@ -85,20 +101,27 @@ const Home = () => {
 
             <SearchBar />
 
-            {/* sección de filtro de categorías */}
+            {/* sección de filtro de categorías — HU #20 */}
             <section className="categories-filter">
                 <div className="categories-filter__content">
 
                     <div className="categories-filter__header">
                         <h2 className="categories-filter__title">Categories</h2>
-                        {selectedCategory && (
-                            // botón para limpiar el filtro
-                            <button
-                                className="categories-filter__clear"
-                                onClick={() => handleCategorySelect(null)}
-                            >
-                                Clean filter ✕
-                            </button>
+
+                        {/* mostramos cuántas categorías están activas y botón para limpiar
+                            solo visible cuando hay al menos un filtro activo */}
+                        {selectedCategories.size > 0 && (
+                            <div className="categories-filter__active-info">
+                                <span className="categories-filter__active-count">
+                                    {selectedCategories.size} filtro{selectedCategories.size !== 1 ? 's' : ''} activo{selectedCategories.size !== 1 ? 's' : ''}
+                                </span>
+                                <button
+                                    className="categories-filter__clear"
+                                    onClick={handleClearFilters}
+                                >
+                                    Limpiar filtros ✕
+                                </button>
+                            </div>
                         )}
                     </div>
 
@@ -106,7 +129,8 @@ const Home = () => {
                         {categories.map(category => (
                             <button
                                 key={category.id}
-                                className={`categories-filter__card ${selectedCategory === category.id ? 'categories-filter__card--active' : ''}`}
+                                // la card se marca como activa si su id está en el Set
+                                className={`categories-filter__card ${selectedCategories.has(category.id) ? 'categories-filter__card--active' : ''}`}
                                 onClick={() => handleCategorySelect(category.id)}
                             >
                                 {category.imageUrl && (
@@ -130,7 +154,7 @@ const Home = () => {
                     <div className="recommendations__header">
                         <h2 className="recommendations__title">Recommendations</h2>
                         <p className="recommendations__subtitle">
-                            {selectedCategory
+                            {selectedCategories.size > 0
                                 ? `${filteredRooms.length} habitación${filteredRooms.length !== 1 ? 'es' : ''} encontrada${filteredRooms.length !== 1 ? 's' : ''}`
                                 : 'Rooms selected for you'
                             }
@@ -161,11 +185,11 @@ const Home = () => {
                             {currentRooms.length === 0 ? (
                                 <div className="recommendations__state">
                                     <p className="recommendations__empty">
-                                        No hay habitaciones en esta categoría.
+                                        No hay habitaciones en estas categorías.
                                     </p>
                                     <button
                                         className="recommendations__retry-btn"
-                                        onClick={() => setSelectedCategory(null)}
+                                        onClick={handleClearFilters}
                                     >
                                         Ver todas
                                     </button>

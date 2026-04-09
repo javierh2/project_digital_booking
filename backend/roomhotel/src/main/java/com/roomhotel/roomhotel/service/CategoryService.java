@@ -3,9 +3,12 @@ package com.roomhotel.roomhotel.service;
 import com.roomhotel.roomhotel.dto.CategoryRequestDTO;
 import com.roomhotel.roomhotel.dto.CategoryResponseDTO;
 import com.roomhotel.roomhotel.entity.Category;
+import com.roomhotel.roomhotel.entity.Room;
 import com.roomhotel.roomhotel.exception.DuplicateNameException;
 import com.roomhotel.roomhotel.exception.ResourceNotFoundException;
 import com.roomhotel.roomhotel.repository.CategoryRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +51,16 @@ public class CategoryService {
     }
 
     // eliminar una categoria, solo "ADMIN"
+    @Transactional
     public void deleteCategoryById(Long id){
-        if(!categoryRepository.existsById(id)){
-            throw new ResourceNotFoundException("Categoria no encontrada con id: " + id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada por id: " + id));
+
+        // al eliminar una categoria, establecemos category_id = null en todas las rooms de esa categoría
+        for (Room room : category.getRooms()){
+            room.setCategory(null);
         }
-        categoryRepository.deleteById(id);
+        categoryRepository.delete(category);
     }
 
     // convierte entidad a DTO

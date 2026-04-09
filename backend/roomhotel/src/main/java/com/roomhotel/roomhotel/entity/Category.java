@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "CATEGORIES")
 @Getter
@@ -28,5 +31,8 @@ public class Category {
 
     @Column(nullable = true)
     private String imageUrl;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private Set<Room> rooms = new HashSet<>();
 
 }

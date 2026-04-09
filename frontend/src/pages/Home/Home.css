@@ -218,3 +218,15 @@
         padding: 10px 12px;
     }
 }
+
+.categories-filter__active-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.categories-filter__active-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: #C47E5A;
+}
