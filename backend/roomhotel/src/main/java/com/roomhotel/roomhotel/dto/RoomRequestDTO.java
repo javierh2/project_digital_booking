@@ -32,7 +32,7 @@ public class RoomRequestDTO {
     @Positive(message = "El precio debe ser un valor positivo")
     private Double price;
 
-    private String imageRoom;
+    private List<String> images;
 
     private List<Long> featureIds;
 }

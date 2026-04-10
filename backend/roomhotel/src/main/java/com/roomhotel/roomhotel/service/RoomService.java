@@ -15,10 +15,7 @@ import com.roomhotel.roomhotel.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // le dice a Spring que esta clase es un componente de lógica de negocio
@@ -152,7 +149,7 @@ public class RoomService {
         room.setDescription(requestDTO.getDescription());
         room.setCategory(category);
         room.setPrice(requestDTO.getPrice());
-        room.setImageRoom(requestDTO.getImageRoom());
+        if (requestDTO.getImages() != null) {room.setImages(requestDTO.getImages());}
         room.setFeatures(features);
 
         // save() sobre una entidad con id existente hace UPDATE, no INSERT
@@ -204,7 +201,7 @@ public class RoomService {
                 .description(room.getDescription())
                 .category(categoryDTO)
                 .price(room.getPrice())
-                .imageRoom(room.getImageRoom())
+                .images(room.getImages())
                 .active(room.getActive())
                 .features(featureDTOs)
                 .build();
@@ -241,7 +238,7 @@ public class RoomService {
                 .description(dto.getDescription())
                 .category(category)
                 .price(dto.getPrice())
-                .imageRoom(dto.getImageRoom())
+                .images(dto.getImages() != null ? dto.getImages() : new ArrayList<>())
                 .active(true) // toda habitación nueva arranca en "active" (disponible)
                 .features(features)
                 .build();

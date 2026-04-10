@@ -229,3 +229,44 @@
     color: #9E8E82;
     padding: 8px 0;
 }
+
+room-form__image-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.room-form__btn-remove-image {
+    background: none;
+    border: 1px solid #EFE4D9;
+    color: #9E8E82;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.room-form__btn-remove-image:hover {
+    border-color: #C47E5A;
+    color: #C47E5A;
+}
+
+.room-form__btn-add-image {
+    background: none;
+    border: 1px dashed #C47E5A;
+    color: #C47E5A;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    transition: background 0.2s;
+}
+
+.room-form__btn-add-image:hover {
+    background: #EFE4D9;
+}

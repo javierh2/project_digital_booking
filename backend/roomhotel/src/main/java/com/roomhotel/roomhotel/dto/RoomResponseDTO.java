@@ -22,7 +22,10 @@ public class RoomResponseDTO {
     private String description;
     private CategoryResponseDTO category;
     private Double price;
-    private String imageRoom;
+
+    @Builder.Default
+    private List<String> images = List.of();
+
     private Boolean active;
 
     // lista de características de ROOM
