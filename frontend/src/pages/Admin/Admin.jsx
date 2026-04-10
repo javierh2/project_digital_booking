@@ -732,9 +732,9 @@ const Admin = () => {
                                     <tr key={room.id}>
                                         <td className="admin__td-id">#{room.id}</td>
                                         <td>
-                                            {room.imageRoom ? (
+                                            {room.images && room.images[0] ? (
                                                 <img
-                                                    src={room.imageRoom}
+                                                    src={room.images[0]}
                                                     alt={room.name}
                                                     className="admin__room-img"
                                                     onError={(e) => {
@@ -745,7 +745,7 @@ const Admin = () => {
                                             ) : null}
                                             <div
                                                 className="admin__room-img-placeholder"
-                                                style={{ display: room.imageRoom ? 'none' : 'flex' }}
+                                                style={{ display: room.images && room.images[0] ? 'none' : 'flex' }}
                                             >
                                                 🏨
                                             </div>
