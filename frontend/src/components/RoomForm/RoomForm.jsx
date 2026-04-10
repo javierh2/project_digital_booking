@@ -19,8 +19,10 @@ const RoomForm = ({ onClose, onRoomCreated, onRoomUpdated, roomToEdit }) => {
         // categoryId viene como objeto {id, title} en roomToEdit — extraemos solo el id
         categoryId: roomToEdit?.category?.id?.toString() || "",
         price: roomToEdit?.price?.toString() || "",
-        imageRoom: roomToEdit?.imageRoom || "",
     }))
+
+    const [images, setImages] = useState(() =>
+        roomToEdit?.images?.length > 0 ? roomToEdit.images : [""])
 
     const [errors, setErrors] = useState({})
     const [submitting, setSubmitting] = useState(false)
@@ -90,6 +92,19 @@ const RoomForm = ({ onClose, onRoomCreated, onRoomUpdated, roomToEdit }) => {
         })
     }
 
+    const handleImageChange = (index, value) => {
+        setImages(prev => prev.map((url, i) => i === index ? value : url))
+    }
+
+    const handleAddImage = () => {
+        if (images.length < 5) setImages(prev => [...prev, ""])
+    }
+
+    const handleRemoveImage = (index) => {
+        if (images.length === 1) return
+        setImages(prev => prev.filter((_, i) => i !== index))
+    }
+
     const validate = () => {
         const newErrors = {}
         if (!formData.name.trim()) newErrors.name = "El nombre es obligatorio"
@@ -112,7 +127,7 @@ const RoomForm = ({ onClose, onRoomCreated, onRoomUpdated, roomToEdit }) => {
                 ...formData,
                 price: Number(formData.price),
                 categoryId: Number(formData.categoryId),
-                imageRoom: formData.imageRoom.trim() === '' ? null : formData.imageRoom.trim(),
+                images: images.filter(url => url.trim() !== ""),
                 featureIds: [...selectedFeatureIds]
             }
 
@@ -260,16 +275,45 @@ const RoomForm = ({ onClose, onRoomCreated, onRoomUpdated, roomToEdit }) => {
                 {/* imagen */}
                 <div className="room-form__group">
                     <label className="room-form__label">
-                        URL de imagen <span style={{ color: '#9E8E82', fontWeight: 400 }}>(opcional)</span>
+                        Imágenes{" "}
+                        <span style={{ color: '#9E8E82', fontWeight: 400 }}>
+                            (opcional — máx. 5)
+                        </span>
                     </label>
-                    <input
-                        type="text"
-                        name="imageRoom"
-                        className="room-form__input"
-                        placeholder="https://..."
-                        value={formData.imageRoom}
-                        onChange={handleChange}
-                    />
+
+                    {images.map((url, index) => (
+                        <div key={index} className="room-form__image-row">
+                            <input
+                                type="text"
+                                className="room-form__input"
+                                placeholder={`URL imagen ${index + 1} — https://...`}
+                            value={url}
+                            onChange={(e) => handleImageChange(index, e.target.value)}
+                            />
+                            {/* botón quitar — solo visible si hay más de 1 campo */}
+                            {images.length > 1 && (
+                                <button
+                                    type="button"
+                                    className="room-form__btn-remove-image"
+                                    onClick={() => handleRemoveImage(index)}
+                                    aria-label="Quitar imagen"
+                                >
+                                    ✕
+                                </button>
+                            )}
+                        </div>
+                    ))}
+
+                    {/* botón agregar — se oculta cuando llegamos a 5 */}
+                    {images.length < 5 && (
+                        <button
+                            type="button"
+                            className="room-form__btn-add-image"
+                            onClick={handleAddImage}
+                        >
+                            + Agregar imagen
+                        </button>
+                    )}
                 </div>
 
                 {/* botones */}

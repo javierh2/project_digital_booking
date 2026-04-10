@@ -87,9 +87,9 @@ const RoomDetail = () => {
             {/* galería partida: imagen principal izquierda + grilla 2x2 derecha */}
             <div className="room-detail__gallery">
                 <div className="room-detail__gallery-main">
-                    {room.imageRoom ? (
+                    {room.images && room.images[0] ? (
                         <img
-                            src={room.imageRoom}
+                            src={room.images[0]}
                             alt={room.name}
                             className="room-detail__gallery-img"
                         />
@@ -98,11 +98,11 @@ const RoomDetail = () => {
                     )}
                 </div>
                 <div className="room-detail__gallery-grid">
-                    {[0, 1, 2, 3].map((i) => (
+                    {Array.from({ length: 4 }, (_, i) => (
                         <div key={i} className="room-detail__gallery-cell">
-                            {room.imageRoom ? (
+                            {room.images && room.images[i + 1] ? (
                                 <img
-                                    src={room.imageRoom}
+                                    src={room.images[i + 1]}
                                     alt={`${room.name} ${i + 2}`}
                                     className="room-detail__gallery-img"
                                 />

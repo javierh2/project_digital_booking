@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -42,8 +44,14 @@ public class Room {
     @Positive(message = "el precio debe ser positivo")
     private Double price;
 
-    @Column(nullable = true)
-    private String imageRoom;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "room_images",
+            joinColumns = @JoinColumn(name = "room_id")
+    )
+    @Column(name = "image_url", nullable = false, length = 2048)
+    @Builder.Default
+    private List<String> images = new ArrayList<>();
 
     @Column(nullable = false)
     @Builder.Default

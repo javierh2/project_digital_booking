@@ -20,10 +20,10 @@ const RoomCard = ({ room }) => {
     return (
         <article className="room-card" onClick={handleViewDetail}>
             <div className="room-card__image-wrapper">
-                {room.imageRoom ? (
+                {room.images && room.images.length > 0 ? (
                     <>
                         <img
-                            src={room.imageRoom}
+                            src={room.images[0]}
                             alt={room.name}
                             className="room-card__image"
                             onError={handleImageError}
