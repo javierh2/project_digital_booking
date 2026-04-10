@@ -11,7 +11,6 @@ Aplicación **Full Stack de reservas de habitaciones** desarrollada con **Java S
 
 El proyecto simula una plataforma de **gestión y visualización de habitaciones de hotel**, permitiendo a los usuarios explorar productos y a los administradores gestionarlos mediante un panel de administración.
 
-
 ---
 
 # 📌 Descripción del Proyecto
