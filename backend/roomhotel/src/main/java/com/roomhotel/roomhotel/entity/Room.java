@@ -49,7 +49,7 @@ public class Room {
             name = "room_images",
             joinColumns = @JoinColumn(name = "room_id")
     )
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", nullable = false, length = 2048)
     @Builder.Default
     private List<String> images = new ArrayList<>();
 
