@@ -286,6 +286,19 @@ const RoomDetail = () => {
 
                 <div className="room-detail__divider" />
 
+
+
+                {/* HU #28 — sección de valoraciones
+                averageRating y totalRatings vienen del objeto room — calculados en el backend
+                no hacemos un request extra porque ya están en el RoomResponseDTO */}
+                <RatingSection
+                    roomId={room.id}
+                    averageRating={room.averageRating || 0}
+                    totalRatings={room.totalRatings || 0}
+                />
+
+                <div className="room-detail__divider" />
+
                 {/* info cards: categoría, precio, disponibilidad */}
                 <div className="room-detail__info-grid">
                     <div className="room-detail__info-card">
