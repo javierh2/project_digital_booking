@@ -226,6 +226,7 @@ const RoomDetail = () => {
                         </h2>
 
 
+
                         {/* grilla de features */}
                         <div className="room-detail__features-grid">
                             {room.features.map(feature => (
@@ -248,6 +249,7 @@ const RoomDetail = () => {
                     <h2 className="room-detail__policies-title">
                         Qué tenés que saber
                     </h2>
+
                     <div className="room-detail__policies-grid">
                         {POLICIES.map(policy => (
                             <div key={policy.id} className="room-detail__policy-col">
@@ -273,6 +275,7 @@ const RoomDetail = () => {
                     <h2 className="room-detail__availability-title">
                         Disponibilidad
                     </h2>
+
 
                     {availabilityLoading ? (
                         <div className="room-detail__state room-detail__state--inline">
