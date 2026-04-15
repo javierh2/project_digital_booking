@@ -89,6 +89,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/features/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/bookings/room/*/occupied-dates").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/ratings/**").permitAll()
 
                         // POST y DELETE de rooms requieren ser ADMIN
                         // hasRole() agrega el prefijo ROLE_ automáticamente
@@ -108,7 +109,8 @@ public class SecurityConfig {
                         // favoritos — todos los endpoints requieren autenticación (cualquier usuario logueado)
                         // no usamos hasRole("ADMIN") — cualquier usuario registrado puede tener favoritos
                         .requestMatchers("/api/favorites/**").authenticated()
-
+                        .requestMatchers(HttpMethod.GET, "/api/ratings/room/*/can-rate").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/ratings/**").authenticated()
                         // Cualquier otro endpoint requiere estar autenticado
                         .anyRequest().authenticated()
                 )

@@ -9,10 +9,7 @@ import com.roomhotel.roomhotel.entity.Feature;
 import com.roomhotel.roomhotel.entity.Room;
 import com.roomhotel.roomhotel.exception.DuplicateNameException;
 import com.roomhotel.roomhotel.exception.ResourceNotFoundException;
-import com.roomhotel.roomhotel.repository.BookingRepository;
-import com.roomhotel.roomhotel.repository.CategoryRepository;
-import com.roomhotel.roomhotel.repository.FeatureRepository;
-import com.roomhotel.roomhotel.repository.RoomRepository;
+import com.roomhotel.roomhotel.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,15 +25,15 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final CategoryRepository categoryRepository;
     private final FeatureRepository featureRepository;
-
-    // inyección del repositorio de reservas necesario para calcular disponibilidad
     private final BookingRepository bookingRepository;
+    private final RatingRepository ratingRepository;
 
-    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository, FeatureRepository featureRepository, BookingRepository bookingRepository) {
+    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository, FeatureRepository featureRepository, BookingRepository bookingRepository, RatingRepository ratingRepository) {
         this.roomRepository = roomRepository;
         this.categoryRepository = categoryRepository;
         this.featureRepository = featureRepository;
         this.bookingRepository = bookingRepository;
+        this.ratingRepository = ratingRepository;
     }
 
 
@@ -180,6 +177,7 @@ public class RoomService {
 
     // Convierte Room (entidad DB) a RoomResponseDTO (lo que ve el frontend)
     // si el room no tiene categoria designada devuelve null en ese campo
+    // agrega averageRating y totalRatings calculados on-the-fly con RatingRepository
     private RoomResponseDTO convertToResponseDTO(Room room) {
         CategoryResponseDTO categoryDTO = null;
         if (room.getCategory() != null){
@@ -201,6 +199,11 @@ public class RoomService {
                         .build())
                 .collect(Collectors.toList());
 
+        // promedio calculado on-the-fly — siempre consistente, sin riesgo de desfase
+        // findAverageStarsByRoomId devuelve null si no hay reseñas; usamos 0.0 como fallback
+        Double avg = ratingRepository.findAverageStarsByRoomId(room.getId());
+        Long total = ratingRepository.countByRoomId(room.getId());
+
         return RoomResponseDTO.builder()
                 .id(room.getId())
                 .name(room.getName())
@@ -210,6 +213,10 @@ public class RoomService {
                 .images(room.getImages())
                 .active(room.getActive())
                 .features(featureDTOs)
+                // null → 0.0 para que el frontend no tenga que manejar null
+                .averageRating(avg != null ? Math.round(avg * 10.0) / 10.0 : 0.0)
+                // casteamos Long a Integer — countByRoomId nunca va a superar Integer.MAX_VALUE
+                .totalRatings(total.intValue())
                 .build();
     }
 
