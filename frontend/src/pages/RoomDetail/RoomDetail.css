@@ -521,3 +521,22 @@
     background: #C47E5A;
     color: #F9F3EE;
 }
+
+.room-detail__share-btn {
+    padding: 7px 16px;
+    background: transparent;
+    border: 2px solid #9E8E82;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #9E8E82;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.room-detail__share-btn:hover {
+    border-color: #C47E5A;
+    color: #C47E5A;
+    background: #FDF5F0;
+}

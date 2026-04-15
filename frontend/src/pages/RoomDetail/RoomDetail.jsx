@@ -4,6 +4,8 @@ import { getRoomById } from "../../services/roomService"
 import './RoomDetail.css'
 import { getOccupiedDates } from "../../services/bookingService"
 import AvailabilityCalendar from "../../components/AvailabilityCalendar/AvailabilityCalendar"
+import RatingSection from "../../components/RatingSection/RatingSection"
+import ShareModal from "../../components/ShareModal/ShareModal"
 
 
 // datos de políticas fijos y globales para todas las habitaciones
@@ -60,6 +62,10 @@ const RoomDetail = () => {
     const [occupiedRanges, setOccupiedRanges] = useState([])
     const [availabilityLoading, setAvailabilityLoading] = useState(true)
     const [availabilityError, setAvailabilityError] = useState(null)
+
+    // estado del modal de compartir — controla si está abierto o cerrado
+    // el modal recibe el objeto room completo para armar la preview y las URLs
+    const [shareOpen, setShareOpen] = useState(false)
 
 
     // Al cargar el detalle la pagina se scrollea al top
@@ -135,6 +141,7 @@ const RoomDetail = () => {
     return (
         <div className="room-detail">
             {/* top bar: título, badge de categoría, botón volver */}
+            {/* top bar: título, badge de categoría, botón compartir y botón volver */}
             <div className="room-detail__top-bar">
                 <h1 className="room-detail__name">{room.name}</h1>
                 {room.category && (
@@ -142,6 +149,18 @@ const RoomDetail = () => {
                         {room.category.title}
                     </span>
                 )}
+
+                {/* HU #27 — botón compartir, abre el ShareModal
+                posicionado en el top-bar junto al título — mismo lugar que muestra
+                el ícono de compartir en el prototipo de la galería */}
+                <button
+                    className="room-detail__share-btn"
+                    onClick={() => setShareOpen(true)}
+                    aria-label="Compartir este producto"
+                >
+                    ↗ Compartir
+                </button>
+
                 <button
                     className="room-detail__back-btn"
                     onClick={() => navigate("/")}
@@ -196,7 +215,9 @@ const RoomDetail = () => {
                 <div className="room-detail__divider" />
                 <p className="room-detail__section-title">Description</p>
                 <p className="room-detail__description">{room.description}</p>
+
                 <div className="room-detail__divider" />
+
                 {/* bloque de características */}
                 {room.features && room.features.length > 0 && (
                     <div className="room-detail__features">
@@ -204,7 +225,6 @@ const RoomDetail = () => {
                             What does this place offer?
                         </h2>
 
-                        <div className="room-detail__divider" />
 
                         {/* grilla de features */}
                         <div className="room-detail__features-grid">
@@ -228,7 +248,6 @@ const RoomDetail = () => {
                     <h2 className="room-detail__policies-title">
                         Qué tenés que saber
                     </h2>
-                    <div className="room-detail__divider" />
                     <div className="room-detail__policies-grid">
                         {POLICIES.map(policy => (
                             <div key={policy.id} className="room-detail__policy-col">
@@ -254,7 +273,6 @@ const RoomDetail = () => {
                     <h2 className="room-detail__availability-title">
                         Disponibilidad
                     </h2>
-                    <div className="room-detail__divider" />
 
                     {availabilityLoading ? (
                         <div className="room-detail__state room-detail__state--inline">
@@ -322,6 +340,14 @@ const RoomDetail = () => {
                     </div>
                 </div>
             </div>
+
+            {/* modal de compartir — recibe el objeto room completo para la preview
+            onClose limpia el estado local del modal (mensaje personalizado) al cerrar */}
+            <ShareModal
+                isOpen={shareOpen}
+                onClose={() => setShareOpen(false)}
+                room={room}
+            />
 
         </div>
     )

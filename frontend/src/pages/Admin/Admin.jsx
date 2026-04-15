@@ -299,14 +299,6 @@ const Admin = () => {
                     <h2>Panel no disponible en móvil</h2>
                     <p>El panel de administración está diseñado para usarse desde una computadora. Por favor accedé desde un dispositivo de escritorio.</p>
                 </div>
-                {/* modal de confirmación global — un solo componente para toda la página */}
-                <ConfirmModal
-                    isOpen={confirmModal.isOpen}
-                    title={confirmModal.title}
-                    message={confirmModal.message}
-                    onConfirm={confirmModal.onConfirm}
-                    onCancel={closeConfirm}
-                />
             </div>
         )
     }
