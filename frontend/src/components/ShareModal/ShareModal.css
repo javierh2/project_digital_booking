@@ -286,3 +286,14 @@
     font-weight: 600;
     margin: -8px 0 0;
 }
+
+.share-modal__instagram-tip {
+    font-size: 12px;
+    color: #9E8E82;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+.share-modal__network-btn--copied {
+    opacity: 0.85;
+}
