@@ -51,6 +51,15 @@ const Favorites = () => {
             <div className="favorites__content">
 
                 <div className="favorites__header">
+                    <div className="favorites__header-top">
+                        {/* botón volver — mismo patrón que RoomDetail y Admin */}
+                        <button
+                            className="favorites__back-btn"
+                            onClick={() => navigate('/')}
+                        >
+                            ← Volver al inicio
+                        </button>
+                    </div>
                     <h1 className="favorites__title">Mis favoritos</h1>
                     <p className="favorites__subtitle">
                         Las habitaciones que guardaste para volver a ver

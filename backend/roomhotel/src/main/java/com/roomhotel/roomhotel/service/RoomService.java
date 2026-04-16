@@ -27,13 +27,15 @@ public class RoomService {
     private final FeatureRepository featureRepository;
     private final BookingRepository bookingRepository;
     private final RatingRepository ratingRepository;
+    private final FavoriteRepository favoriteRepository;
 
-    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository, FeatureRepository featureRepository, BookingRepository bookingRepository, RatingRepository ratingRepository) {
+    public RoomService(RoomRepository roomRepository, CategoryRepository categoryRepository, FeatureRepository featureRepository, BookingRepository bookingRepository, RatingRepository ratingRepository, FavoriteRepository favoriteRepository) {
         this.roomRepository = roomRepository;
         this.categoryRepository = categoryRepository;
         this.featureRepository = featureRepository;
         this.bookingRepository = bookingRepository;
         this.ratingRepository = ratingRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
 
@@ -161,19 +163,29 @@ public class RoomService {
     }
 
     // elimina un registro de la DB mediante HardDelete
+    // antes de borrar la room, elimina en cascada todos los registros dependientes
+    // para no violar las constraints de FK de FAVORITES, BOOKINGS y RATINGS
     @Transactional
     public void deleteRoom(Long id) {
 
-        // verificacion de habitación existente
+        // verificacion de habitación existente antes de intentar borrar nada
         roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Habitación no encontrada con id: " + id
                 ));
 
-        // Borra físicamente el registro de la DB
+        // orden importante: primero borramos las tablas hijo, luego la tabla padre
+        // si borráramos ROOMS primero, las FK constraints fallarían igual
+        // ratings primero porque no tiene dependencias propias
+        ratingRepository.deleteByRoomId(id);
+        // luego favoritos
+        favoriteRepository.deleteByRoomId(id);
+        // luego bookings — va después de ratings porque ratings no depende de bookings
+        bookingRepository.deleteByRoomId(id);
+
+        // ahora sí podemos borrar la room — sin registros hijo que la referencien
         roomRepository.deleteById(id);
     }
-
 
     // Convierte Room (entidad DB) a RoomResponseDTO (lo que ve el frontend)
     // si el room no tiene categoria designada devuelve null en ese campo

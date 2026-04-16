@@ -5,7 +5,7 @@ import './SearchBar.css'
 // no vienen de la DB porque Room no tiene campo city
 // el autocomplete filtra rooms por nombre/descripción en Home
 const SUGGESTED_CITIES = [
-    'San Carlos de Bariloche',
+    'Bariloche',
     'Buenos Aires',
     'Mendoza',
     'Córdoba',
@@ -14,7 +14,7 @@ const SUGGESTED_CITIES = [
     'Mar del Plata',
     'Puerto Iguazú',
     'El Calafate',
-    'Villa La Angostura'
+    'Federación',
 ]
 
 // nombres cortos de los meses para el encabezado del calendario

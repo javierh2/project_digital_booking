@@ -21,4 +21,8 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
             "SELECT f.room.id FROM Favorite f WHERE f.user.id = :userId"
     )
     List<Long> findRoomIdsByUserId(Long userId);
+
+    // elimina todos los favoritos de una room — necesario antes de borrar la room
+    // para no violar la constraint de FK FAVORITES.room_id → ROOMS.id
+    void deleteByRoomId(Long roomId);
 }

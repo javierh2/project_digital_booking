@@ -95,3 +95,23 @@
         grid-template-columns: 1fr;
     }
 }
+
+.favorites__header-top {
+    margin-bottom: 12px;
+}
+
+.favorites__back-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #9E8E82;
+    cursor: pointer;
+    padding: 0;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    font-family: inherit;
+}
+
+.favorites__back-btn:hover {
+    color: #C47E5A;
+}

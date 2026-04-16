@@ -25,4 +25,7 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 
     // cuenta total de reseñas para una room — para mostrar "8 valoraciones"
     Long countByRoomId(Long roomId);
+
+    // elimina todas las reseñas de una room — necesario antes de borrar la room
+    void deleteByRoomId(Long roomId);
 }
