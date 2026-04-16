@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 
-    // todas las reseñas de una room — ordenadas por fecha descendente
+    // todas las reseñas de una room, ordenadas por fecha descendente
     // así el frontend siempre muestra la más reciente primero
     List<Rating> findByRoomIdOrderByCreatedAtDesc(Long roomId);
 
-    // busca si un usuario ya puntuó una room — para evitar duplicados
+    // busca si un usuario ya puntuó una room, para evitar duplicados
     // y para saber si mostrar el formulario o no en el frontend
     Optional<Rating> findByUserIdAndRoomId(Long userId, Long roomId);
 

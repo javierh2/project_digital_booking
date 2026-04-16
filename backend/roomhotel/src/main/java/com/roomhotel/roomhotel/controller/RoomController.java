@@ -68,7 +68,7 @@ public class  RoomController {
 
 
     // PUT /api/rooms/{id}
-    // Actualiza una habitación existente — HU #12
+    // Actualiza una habitación existente
     // PUT porque reemplazamos todos los campos editables del recurso
         @PutMapping("/{id}")
         public ResponseEntity<RoomResponseDTO> updateRoom(

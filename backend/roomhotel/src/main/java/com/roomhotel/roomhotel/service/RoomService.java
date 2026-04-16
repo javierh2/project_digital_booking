@@ -174,16 +174,16 @@ public class RoomService {
                         "Habitación no encontrada con id: " + id
                 ));
 
-        // orden importante: primero borramos las tablas hijo, luego la tabla padre
-        // si borráramos ROOMS primero, las FK constraints fallarían igual
+        // orden: primero borra las tablas hijo, luego la tabla padre
+        // si borrára ROOMS primero, las FK constraints fallarían igual
         // ratings primero porque no tiene dependencias propias
         ratingRepository.deleteByRoomId(id);
         // luego favoritos
         favoriteRepository.deleteByRoomId(id);
-        // luego bookings — va después de ratings porque ratings no depende de bookings
+        // luego bookings; va después de ratings porque ratings no depende de bookings
         bookingRepository.deleteByRoomId(id);
 
-        // ahora sí podemos borrar la room — sin registros hijo que la referencien
+        // ultimo borra la room, sin registros hijo que la referencien
         roomRepository.deleteById(id);
     }
 

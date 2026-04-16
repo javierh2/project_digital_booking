@@ -29,6 +29,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     // trae todas las reservas de una room
     List<Booking> findByRoomId(Long roomId);
 
-    // elimina todas las reservas de una room — necesario antes de borrar la room
+    // elimina todas las reservas de una room, necesario antes de borrar la room
     void deleteByRoomId(Long roomId);
 }

@@ -29,14 +29,14 @@ public class RatingController {
     }
 
     // GET /api/ratings/room/{roomId} — todas las reseñas de una room
-    // público — cualquier visitante puede leer las reseñas sin estar logueado
+    // público, cualquier visitante puede leer las reseñas sin estar logueado
     @GetMapping("/room/{roomId}")
     public ResponseEntity<List<RatingResponseDTO>> getRatings(@PathVariable Long roomId) {
         return ResponseEntity.ok(ratingService.getRatingsByRoom(roomId));
     }
 
     // GET /api/ratings/room/{roomId}/can-rate — ¿puede el usuario autenticado puntuar?
-    // autenticado — solo tiene sentido consultarlo si hay un usuario logueado
+    // autenticado, solo tiene sentido consultarlo si hay un usuario logueado
     @GetMapping("/room/{roomId}/can-rate")
     public ResponseEntity<Map<String, Boolean>> canRate(
             @PathVariable Long roomId,
@@ -48,7 +48,7 @@ public class RatingController {
     }
 
     // POST /api/ratings/room/{roomId} — crea una reseña
-    // autenticado — verificamos además que tenga reserva finalizada en el service
+    // autenticado, verificamos además que tenga reserva finalizada en el service
     @PostMapping("/room/{roomId}")
     public ResponseEntity<RatingResponseDTO> createRating(
             @PathVariable Long roomId,

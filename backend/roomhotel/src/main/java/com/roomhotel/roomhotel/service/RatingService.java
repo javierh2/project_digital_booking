@@ -25,8 +25,7 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
-    // necesitamos BookingRepository para verificar que el usuario
-    // haya completado una reserva antes de permitirle puntuar
+    // BookingRepository para verificar que el usuario haya completado una reserva antes de permitirle puntuar
     private final BookingRepository bookingRepository;
 
     public RatingService(RatingRepository ratingRepository,
@@ -49,7 +48,7 @@ public class RatingService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Habitación no encontrada"));
 
-        // verificamos que el usuario tenga al menos una reserva finalizada para esta room
+        // verifica que el usuario tenga al menos una reserva finalizada para esta room
         // "finalizada" = checkOut anterior a hoy
         // si no tiene reserva finalizada, no puede puntuar — 403 Forbidden
         boolean hasCompletedBooking = bookingRepository.findByRoomId(roomId)
@@ -60,7 +59,7 @@ public class RatingService {
         if (!hasCompletedBooking) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
-                    "Solo podés puntuar habitaciones en las que ya te hospedaste"
+                    "Solo podés puntuar habitaciones en las que te hospedaste"
             );
         }
 
@@ -92,13 +91,13 @@ public class RatingService {
                 .collect(Collectors.toList());
     }
 
-    // informa si el usuario ya puntuó esta room — para que el frontend
+    // informa si el usuario ya puntuó esta room para que el frontend
     // muestre el formulario o un mensaje de "ya puntuaste"
     public boolean hasUserRated(Long userId, Long roomId) {
         return ratingRepository.findByUserIdAndRoomId(userId, roomId).isPresent();
     }
 
-    // informa si el usuario puede puntuar — tiene reserva finalizada Y no puntuó aún
+    // informa si el usuario puede puntuar, tiene reserva finalizada Y no puntuó aún
     // el frontend usa esto para decidir si muestra el formulario
     public boolean canUserRate(Long userId, Long roomId) {
         boolean hasCompleted = bookingRepository.findByRoomId(roomId)
@@ -113,7 +112,6 @@ public class RatingService {
     private RatingResponseDTO convertToDTO(Rating rating) {
         return RatingResponseDTO.builder()
                 .id(rating.getId())
-                // nombre completo del usuario — criterio de aceptación explícito
                 .userName(rating.getUser().getFirstName() + " " + rating.getUser().getLastName())
                 .stars(rating.getStars())
                 .comment(rating.getComment())

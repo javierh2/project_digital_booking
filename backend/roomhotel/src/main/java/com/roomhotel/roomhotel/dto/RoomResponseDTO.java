@@ -33,10 +33,10 @@ public class RoomResponseDTO {
     private List<FeatureResponseDTO> features = List.of();
 
     // promedio de estrellas calculado on-the-fly en RoomService.convertToResponseDTO()
-    // null si la room no tiene reseñas aún — el frontend lo trata con una guarda
+    // null si la room no tiene reseñas aún, el frontend lo trata con una guarda
     private Double averageRating;
 
-    // total de reseñas — para mostrar "8 valoraciones" junto al promedio
+    // total de reseñas, para mostrar "8 valoraciones" junto al promedio
     @Builder.Default
     private Integer totalRatings = 0;
 }

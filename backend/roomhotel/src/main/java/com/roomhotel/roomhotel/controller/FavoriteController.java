@@ -19,14 +19,13 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
     private final UserRepository userRepository;
 
-    public FavoriteController(FavoriteService favoriteService,
-                              UserRepository userRepository) {
+    public FavoriteController(FavoriteService favoriteService, UserRepository userRepository) {
         this.favoriteService = favoriteService;
         this.userRepository = userRepository;
     }
 
     // @AuthenticationPrincipal inyecta el UserDetails del token JWT
-    // Spring Security lo extrae del SecurityContext — no necesitamos leer el token manualmente
+    // Spring Security lo extrae del SecurityContext, no necesitamos leer el token manualmente
     // así el userId viene del token verificado, no de un parámetro manipulable por el cliente
 
     // GET /api/favorites — lista las rooms favoritas del usuario logueado

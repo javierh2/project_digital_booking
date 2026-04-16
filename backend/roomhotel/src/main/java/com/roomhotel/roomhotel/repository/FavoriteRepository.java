@@ -23,6 +23,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Long> findRoomIdsByUserId(Long userId);
 
     // elimina todos los favoritos de una room — necesario antes de borrar la room
-    // para no violar la constraint de FK FAVORITES.room_id → ROOMS.id
+    // para no violar la constraint de FK FAVORITES.room_id -> ROOMS.id
     void deleteByRoomId(Long roomId);
 }

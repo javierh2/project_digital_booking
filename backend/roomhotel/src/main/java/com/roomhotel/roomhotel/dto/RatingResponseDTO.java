@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 public class RatingResponseDTO {
 
     private Long id;
-    // nombre del usuario que hizo la reseña — criterio de aceptación explícito
+    // nombre del usuario que hizo la reseña
     private String userName;
     private Integer stars;
     // comentario puede ser null — el frontend lo maneja con una guarda
     private String comment;
-    // fecha de publicación — criterio de aceptación explícito
+    // fecha de publicación
     private LocalDateTime createdAt;
 }

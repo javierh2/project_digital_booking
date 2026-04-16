@@ -19,6 +19,6 @@ public class RatingRequestDTO {
     @Max(value = 5, message = "La puntuación máxima es 5")
     private Integer stars;
 
-    // comentario opcional — el usuario puede puntuar sin escribir nada
+    // comentario opcional, el usuario puede puntuar sin escribir nada
     private String comment;
 }

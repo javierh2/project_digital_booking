@@ -52,7 +52,7 @@ public class FavoriteService {
         favoriteRepository.save(favorite);
     }
 
-    // elimina un favorito — si no existe, lanza 404
+    // elimina un favorito, si no existe, lanza 404
     // uso de findByUserIdAndRoomId para que un usuario solo pueda
     // eliminar SUS favoritos, nunca los de otro usuario
     @Transactional
