@@ -2,7 +2,7 @@ import './ConfirmModal.css'
 
 // componente de confirmación, reemplaza window.confirm()
 // recibe todo por props para que Admin.jsx controle las decisiones a ejecutar cuando el usuario confirma o cancela
-const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
+const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Sí, confirmar" }) => {
 
     // si no está abierto no renderiza y evita montar el DOM innecesariamente
     if (!isOpen) return null
@@ -26,7 +26,7 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
                     </button>
                     {/* confirmar a la derecha  */}
                     <button className="confirm-modal__btn confirm-modal__btn--confirm" onClick={onConfirm}>
-                        Sí, eliminar
+                        {confirmText}
                     </button>
                 </div>
 

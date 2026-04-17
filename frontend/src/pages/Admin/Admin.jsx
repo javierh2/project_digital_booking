@@ -29,17 +29,18 @@ const Admin = () => {
         isOpen: false,
         title: '',
         message: '',
-        onConfirm: null
+        onConfirm: null,
+        confirmText: "Sí, confirmar"
     })
 
     // helper para abrir el modal — evita repetir el spread en cada handler
-    const openConfirm = (title, message, onConfirm) => {
-        setConfirmModal({ isOpen: true, title, message, onConfirm })
+    const openConfirm = (title, message, onConfirm, confirmText = "Sí, confirmar") => {
+        setConfirmModal({ isOpen: true, title, message, onConfirm,confirmText })
     }
 
     // helper para cerrar — resetea todo el estado de una sola vez
     const closeConfirm = () => {
-        setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null })
+        setConfirmModal({ isOpen: false, title: '', message: '', onConfirm: null, confirmText: "Sí, confirmar" })
     }
 
     // estado de features
@@ -60,7 +61,8 @@ const Admin = () => {
     const [categories, setCategories] = useState([])
     const [loadingCategories, setLoadingCategories] = useState(false)
     const [newCategory, setNewCategory] = useState({ title: '', description: '', imageUrl: '' })
-    const [categoryError, setCategoryError] = useState('')
+    const [titleError, setTitleError] = useState('')
+    const [descriptionError, setDescriptionError] = useState('')
     const [savingCategory, setSavingCategory] = useState(false)
 
     // detección de mobile
@@ -163,7 +165,8 @@ const Admin = () => {
                 } catch (error) {
                     alert(`Error al eliminar: ${error.message}`)
                 }
-            }
+            },
+            "Sí, eliminar"
         )
     }
 
@@ -209,7 +212,8 @@ const Admin = () => {
                 } catch (error) {
                     alert(`Error al eliminar: ${error.message}`)
                 }
-            }
+            },
+            "Sí, eliminar"
         )
     }
 
@@ -218,18 +222,23 @@ const Admin = () => {
         const { name, value } = event.target
         setNewCategory(prev => ({ ...prev, [name]: value }))
         // limpiamos el error apenas el usuario empieza a corregir
-        if (categoryError) setCategoryError("")
+        if (name === 'title' && titleError) setTitleError('')
+        if (name === 'description' && descriptionError) setDescriptionError('')
     }
 
     const handleCreateCategory = async () => {
-        // título y descripción son obligatorios según CategoryRequestDTO
-        // imageUrl es opcional
+        // Limpiar errores previos
+        setTitleError('')
+        setDescriptionError('')
+
+        // Título obligatorio
         if (!newCategory.title.trim()) {
-            setCategoryError("El título es obligatorio")
+            setTitleError('El título es obligatorio')
             return
         }
+        // Descripción obligatoria
         if (!newCategory.description.trim()) {
-            setCategoryError("La descripción es obligatoria")
+            setDescriptionError('La descripción es obligatoria')
             return
         }
         setSavingCategory(true)
@@ -244,7 +253,7 @@ const Admin = () => {
             setCategories(prev => [...prev, created])
             setNewCategory({ title: '', description: '', imageUrl: '' })
         } catch (error) {
-            setCategoryError("Ya existe una categoría con ese título")
+            setTitleError("Ya existe una categoría con ese título")
             console.error("Error al crear categoría: ", error)
         } finally {
             setSavingCategory(false)
@@ -264,7 +273,8 @@ const Admin = () => {
                 } catch (error) {
                     alert(`Error al eliminar: ${error.message}`)
                 }
-            }
+            },
+            "Sí, eliminar"
         )
     }
 
@@ -272,6 +282,7 @@ const Admin = () => {
     const handleRoleToggle = async (user) => {
         const newRole = user.role === 'ROLE_ADMIN' ? 'ROLE_USER' : 'ROLE_ADMIN'
         const action = newRole === 'ROLE_ADMIN' ? 'promover a administrador' : 'quitar permisos de administrador a'
+        const confirmText = newRole === 'ROLE_ADMIN' ? 'Sí, promover' : 'Sí, quitar permisos'
         openConfirm(
             `Cambiar rol de ${user.firstName} ${user.lastName}`,
             `¿Estás seguro de querer ${action} este usuario?`,
@@ -286,7 +297,8 @@ const Admin = () => {
                 } finally {
                     setUpdatingUserId(null)
                 }
-            }
+            },
+            confirmText
         )
     }
 
@@ -392,6 +404,7 @@ const Admin = () => {
                     message={confirmModal.message}
                     onConfirm={confirmModal.onConfirm}
                     onCancel={closeConfirm}
+                    confirmText={confirmModal.confirmText} 
                 />
             </div>
         )
@@ -515,6 +528,7 @@ const Admin = () => {
                     message={confirmModal.message}
                     onConfirm={confirmModal.onConfirm}
                     onCancel={closeConfirm}
+                    confirmText={confirmModal.confirmText} 
                 />
 
             </div>
@@ -550,12 +564,12 @@ const Admin = () => {
                                 <input
                                     type="text"
                                     name="title"
-                                    className={`admin__feature-input ${categoryError ? 'admin__feature-input--error' : ''}`}
+                                    className={`admin__feature-input ${titleError ? 'admin__feature-input--error' : ''}`}
                                     placeholder="Ej: Suite, Hostel, Departamento..."
                                     value={newCategory.title}
                                     onChange={handleCategoryChange}
                                 />
-                                {categoryError && <span className="admin__feature-error">{categoryError}</span>}
+                                {titleError && <span className="admin__feature-error">{titleError}</span>}
                             </div>
 
                             <div className="admin__feature-form-group">
@@ -563,11 +577,12 @@ const Admin = () => {
                                 <input
                                     type="text"
                                     name="description"
-                                    className="admin__feature-input"
+                                    className={`admin__feature-input ${descriptionError ? 'admin__feature-input--error' : ''}`}
                                     placeholder="Ej: Habitaciones de lujo con vista al mar..."
                                     value={newCategory.description}
                                     onChange={handleCategoryChange}
                                 />
+                                {descriptionError && <span className="admin__feature-error">{descriptionError}</span>}
                             </div>
 
                             <div className="admin__feature-form-group">
@@ -665,6 +680,7 @@ const Admin = () => {
                     message={confirmModal.message}
                     onConfirm={confirmModal.onConfirm}
                     onCancel={closeConfirm}
+                    confirmText={confirmModal.confirmText}
                 />
             </div>
         )
@@ -749,6 +765,7 @@ const Admin = () => {
                     message={confirmModal.message}
                     onConfirm={confirmModal.onConfirm}
                     onCancel={closeConfirm}
+                    confirmText={confirmModal.confirmText}
                 />
             </div>
         )
@@ -877,6 +894,7 @@ const Admin = () => {
                 message={confirmModal.message}
                 onConfirm={confirmModal.onConfirm}
                 onCancel={closeConfirm}
+                confirmText={confirmModal.confirmText} 
             />
         </div>
     )

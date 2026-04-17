@@ -11,7 +11,6 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
 
     if (!isAuthenticated) {
         // guardamos el intento de navegación para poder volver después del login
-        // en este sprint simplemente mandamos a login
         return <Navigate to="/login" replace />
     }
 
