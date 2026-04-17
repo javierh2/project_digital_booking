@@ -7,24 +7,18 @@ const getAuthHeader = () => {
     return { "Authorization": `Bearer ${user.token}` }
 }
 
-// trae los rangos de fechas ocupadas para una room
-// público, no requiere token
-// devuelve [{id, roomId, checkIn, checkOut}] donde checkIn/checkOut son "YYYY-MM-DD"
 export const getOccupiedDates = async (roomId) => {
     const response = await fetch(`${BASE_URL}/room/${roomId}/occupied-dates`)
-    if (!response.ok) {
-        throw new Error(`Error ${response.status}: no se pudo obtener la disponibilidad`)
-    }
+    if (!response.ok) throw new Error(`Error ${response.status}`)
     return response.json()
 }
 
-// POST /api/bookings — crea una reserva para el usuario autenticado
-// body: { roomId, checkIn, checkOut } en formato "YYYY-MM-DD"
+
 export const createBooking = async (roomId, checkIn, checkOut) => {
-    const response = await fetch(`${BASE_URL}`, {
-        method: "POST",
+    const response = await fetch(BASE_URL, {
+        method: 'POST',
         headers: {
-            "Content-Type": 'application/json',
+            'Content-Type': 'application/json',
             ...getAuthHeader()
         },
         body: JSON.stringify({ roomId, checkIn, checkOut })
