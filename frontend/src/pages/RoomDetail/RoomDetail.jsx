@@ -148,7 +148,6 @@ const RoomDetail = () => {
 
     return (
         <div className="room-detail">
-            {/* top bar: título, badge de categoría, botón volver */}
             {/* top bar: título, badge de categoría, botón compartir y botón volver */}
             <div className="room-detail__top-bar">
                 <h1 className="room-detail__name">{room.name}</h1>
@@ -276,8 +275,8 @@ const RoomDetail = () => {
                 </div>
                 <div className="room-detail__divider" />
 
-                {/* HU #23 — calendario unificado de disponibilidad y reserva
-    BookingForm ahora muestra tanto los días ocupados (visual)
+                {/* calendario  de disponibilidad y reserva
+    BookingForm muestra tanto los días ocupados (visual)
     como permite seleccionar fechas y confirmar la reserva (interactivo)
     recibe occupiedRanges del mismo fetch — sin request extra */}
                 <div className="room-detail__availability">

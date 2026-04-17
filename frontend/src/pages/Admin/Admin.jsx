@@ -528,7 +528,7 @@ const Admin = () => {
                     message={confirmModal.message}
                     onConfirm={confirmModal.onConfirm}
                     onCancel={closeConfirm}
-                    confirmText={confirmModal.confirmText} 
+                    confirmText={confirmModal.confirmText}
                 />
 
             </div>
