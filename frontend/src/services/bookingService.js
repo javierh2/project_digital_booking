@@ -17,3 +17,21 @@ export const getOccupiedDates = async (roomId) => {
     }
     return response.json()
 }
+
+// POST /api/bookings — crea una reserva para el usuario autenticado
+// body: { roomId, checkIn, checkOut } en formato "YYYY-MM-DD"
+export const createBooking = async (roomId, checkIn, checkOut) => {
+    const response = await fetch(`${BASE_URL}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json',
+            ...getAuthHeader()
+        },
+        body: JSON.stringify({ roomId, checkIn, checkOut })
+    })
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}))
+        throw new Error(err.message || `Error ${response.status}`)
+    }
+    return response.json()
+}
