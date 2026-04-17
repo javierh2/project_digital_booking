@@ -10,10 +10,8 @@ const MONTHS = [
 ]
 const DAYS = ['Do','Lu','Ma','Mi','Ju','Vi','Sá']
 
-// componente unificado que reemplaza a AvailabilityCalendar + BookingForm por separado
-// responsabilidades:
-//   1. visualizar qué días están ocupados (comportamiento de AvailabilityCalendar)
-//   2. permitir seleccionar un rango de fechas para reservar (comportamiento de BookingForm)
+// visualizar qué días están ocupados
+// permitir seleccionar un rango de fechas para reservar
 // ambas responsabilidades comparten el mismo calendar grid — un solo componente, cero redundancia
 // recibe room para calcular el precio total y occupiedRanges del fetch en RoomDetail
 const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
