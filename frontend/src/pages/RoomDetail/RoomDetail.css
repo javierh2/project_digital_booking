@@ -538,3 +538,30 @@
     background-color: #C47E5A;
     color: #FFFFFF;
 }
+
+@media (max-width: 768px) {
+    .room-detail__top-bar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 14px 16px;
+    }
+
+    .room-detail__top-bar .room-detail__name {
+        font-size: 16px;
+        flex: 1 1 100%;
+    }
+
+    .room-detail__category-badge {
+        flex: 0 0 auto;
+        margin-left: 0;
+    }
+
+    .room-detail__share-btn,
+    .room-detail__top-bar .room-detail__back-btn {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}

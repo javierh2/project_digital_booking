@@ -20,6 +20,7 @@ import Favorites from './pages/Favorites/Favorites'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import MyBookings from './pages/MyBookings/MyBookings'
 import WspButton from './components/WspButton/WspButton'
+import BookingConfirmation from './pages/BookingConfirmation/BookingConfirmation'
 
 
 const App = () => {
@@ -75,6 +76,11 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
+              {/* /booking/confirmation — página de éxito post-reserva — HU #32
+    no tiene ProtectedRoute porque si el usuario llega sin state
+    el propio componente lo redirige al home con replace */}
+              <Route path="/booking/confirmation" element={<BookingConfirmation />} />
 
             </Routes>
           </main>
