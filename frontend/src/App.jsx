@@ -19,7 +19,7 @@ import Login from './pages/Login/Login'
 import Favorites from './pages/Favorites/Favorites'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import MyBookings from './pages/MyBookings/MyBookings'
-import Wsp from './components/WspButton/WspButton'
+import WspButton from './components/WspButton/WspButton'
 
 
 const App = () => {
@@ -86,7 +86,7 @@ const App = () => {
           va fuera del <main> para que no afecte el flujo del layout
           position: fixed en el CSS lo ancla al viewport independientemente del scroll
           no requiere autenticación — visible para todos los usuarios */}
-          <WhatsAppButton />
+          <WspButton />
 
         </div>
       </BrowserRouter>

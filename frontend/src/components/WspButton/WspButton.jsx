@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import './WhatsAppButton.css'
+import './WspButton.css'
 
 // número de WhatsApp de soporte de Digital Booking
 // en producción esto vendría de una variable de entorno (import.meta.env.VITE_WA_NUMBER)
 // por ahora es una constante para que sea fácil de cambiar en un solo lugar
-const WA_NUMBER = '5491112345678'
+const WA_NUMBER = '543517863766'
 
 // mensaje predeterminado que se pre-carga en WhatsApp al abrir el chat
 // encodeURIComponent lo convierte a formato URL-safe ("+" en lugar de espacios, etc.)

@@ -93,15 +93,15 @@
 }
 
 .my-bookings__badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
+    position: static;
     font-size: 11px;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    align-self: flex-start;
+    width: fit-content;
 }
 
 .my-bookings__badge--upcoming {
@@ -131,7 +131,7 @@
     font-weight: 700;
     color: #2C3E50;
     margin: 0;
-    padding-right: 80px;
+    padding-right: 0;
 }
 
 .my-bookings__dates {
@@ -205,14 +205,5 @@
     .my-bookings__view-btn {
         width: 100%;
         text-align: center;
-    }
-
-    .my-bookings__badge {
-        position: static;
-        align-self: flex-start;
-    }
-
-    .my-bookings__room-name {
-        padding-right: 0;
     }
 }

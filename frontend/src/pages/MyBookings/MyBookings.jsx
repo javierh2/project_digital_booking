@@ -107,13 +107,11 @@ const MyBookings = () => {
                         return (
                             <div key={booking.id} className="my-bookings__card">
 
-                                {/* badge de estado — color semántico: verde próxima, azul activa, gris completada */}
-                                <span className={`my-bookings__badge my-bookings__badge--${status.mod}`}>
-                                    {status.label}
-                                </span>
-
                                 <div className="my-bookings__card-body">
 
+                                    <span className={`my-bookings__badge my-bookings__badge--${status.mod}`}>
+                                        {status.label}
+                                    </span>
                                     {/* nombre del producto reservado */}
                                     <h2 className="my-bookings__room-name">{booking.roomName}</h2>
 
