@@ -14,12 +14,10 @@ const DAYS = ['Do','Lu','Ma','Mi','Ju','Vi','Sá']
 // permitir seleccionar un rango de fechas para reservar
 // ambas responsabilidades comparten el mismo calendar grid — un solo componente, cero redundancia
 // recibe room para calcular el precio total y occupiedRanges del fetch en RoomDetail
-// HU #31: agregamos bloque de datos del usuario autenticado arriba del calendario
-// HU #32: al confirmar exitosamente, navegamos a /booking/confirmation con los datos via state
-//         en lugar de mostrar el éxito inline — la HU pide una página dedicada
+// bloque de datos del usuario autenticado arriba del calendario
+// al confirmar exitosamente, redirige /booking/confirmation con los datos via state
 const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
 
-    // HU #31: necesitamos user para mostrar nombre, apellido y email en el formulario
     const { isAuthenticated, user } = useAuth()
     const navigate = useNavigate()
 
@@ -186,7 +184,7 @@ const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
     }
 
     const handleSubmit = async () => {
-        // si no está logueado lo mandamos al login — no tiene sentido reservar sin cuenta
+        // si no está logueado redirige al login
         if (!isAuthenticated) {
             navigate('/login')
             return
@@ -204,7 +202,7 @@ const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
             // así el calendario refleja inmediatamente la reserva recién creada
             if (onBookingCreated) onBookingCreated()
 
-            // HU #32: navegamos a la página de confirmación con los datos via state
+            // redirige a la página de confirmación con los datos via state
             // usamos navigate state en lugar de query params para no exponer datos en la URL
             // y para no tener que re-fetchear el room en la página de confirmación
             navigate('/booking/confirmation', {
@@ -216,7 +214,7 @@ const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
                     checkOut,
                     nights,
                     total: (room.price * nights).toFixed(2),
-                    // datos del usuario para mostrar en la confirmación (HU #31)
+                    // datos del usuario para mostrar en la confirmación
                     userFirstName: user.firstName,
                     userLastName: user.lastName,
                     userEmail: user.email,
@@ -245,10 +243,9 @@ const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
                 </p>
             </div>
 
-            {/* HU #31 — bloque de datos del usuario autenticado
+            {/* bloque de datos del usuario autenticado
                 solo se muestra si está logueado — si no lo está, el botón de submit
-                ya lo redirige al login, no tiene sentido mostrar un bloque vacío
-                los datos vienen de AuthContext, no hace ningún fetch extra */}
+                ya lo redirige al login*/}
             {isAuthenticated && user && (
                 <div className="booking-form__user-info">
                     <h3 className="booking-form__user-info-title">Tus datos</h3>
@@ -279,7 +276,7 @@ const BookingForm = ({ room, occupiedRanges = [], onBookingCreated }) => {
                 <button type="button" className="booking-form__cal-nav" onClick={nextMonth}>›</button>
             </div>
 
-            {/* leyenda unificada — incluye todos los estados posibles del día */}
+            {/* leyenda unificada, incluye todos los estados posibles del día */}
             <div className="booking-form__legend">
                 <div className="booking-form__legend-item">
                     <div className="booking-form__legend-dot booking-form__legend-dot--available" />

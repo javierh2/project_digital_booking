@@ -1,17 +1,15 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import './BookingConfirmation.css'
 
-// página de confirmación de reserva exitosa — HU #32
+// página de confirmación de reserva exitosa
 // recibe todos los datos via navigate state — no hace ningún fetch
 // si el usuario llega acá sin state (URL directa o refresh) lo mandamos al home
-// porque no tenemos datos para mostrar y no queremos una página rota
 const BookingConfirmation = () => {
 
     const { state } = useLocation()
     const navigate = useNavigate()
 
     // guard: si no hay state, el usuario llegó por URL directa o hizo refresh
-    // en ese caso no tenemos datos — mandamos al home limpiamente
     if (!state) {
         navigate('/', { replace: true })
         return null
@@ -52,12 +50,12 @@ const BookingConfirmation = () => {
 
             <div className="booking-conf__body">
 
-                {/* tarjeta del producto reservado — HU #31: mostrar detalle del producto */}
+                {/* tarjeta del producto reservado */}
                 <div className="booking-conf__card">
                     <h2 className="booking-conf__card-title">Producto reservado</h2>
 
                     <div className="booking-conf__room">
-                        {/* imagen del producto si existe — refuerzo visual de qué reservó */}
+                        {/* imagen del producto si existe */}
                         {roomImage && (
                             <img
                                 src={roomImage}
@@ -93,7 +91,7 @@ const BookingConfirmation = () => {
                     </div>
                 </div>
 
-                {/* tarjeta del usuario — HU #31: mostrar datos de quien reserva */}
+                {/* tarjeta del usuario */}
                 <div className="booking-conf__card">
                     <h2 className="booking-conf__card-title">Datos del huésped</h2>
                     <div className="booking-conf__user-grid">
@@ -112,7 +110,7 @@ const BookingConfirmation = () => {
                     </div>
                 </div>
 
-                {/* acciones post-confirmación — dos caminos: seguir explorando o ver historial */}
+                {/* acciones post-confirmación, dos caminos: seguir explorando o ver historial */}
                 <div className="booking-conf__actions">
                     <button
                         className="booking-conf__btn booking-conf__btn--primary"

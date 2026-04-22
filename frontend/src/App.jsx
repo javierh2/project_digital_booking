@@ -77,9 +77,9 @@ const App = () => {
                 }
               />
 
-              {/* /booking/confirmation — página de éxito post-reserva — HU #32
-    no tiene ProtectedRoute porque si el usuario llega sin state
-    el propio componente lo redirige al home con replace */}
+              {/* /booking/confirmation — página de éxito post-reserva
+                no tiene ProtectedRoute porque si el usuario llega sin state
+                el propio componente lo redirige al home con replace */}
               <Route path="/booking/confirmation" element={<BookingConfirmation />} />
 
             </Routes>
