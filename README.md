@@ -132,7 +132,7 @@ https://documenter.getpostman.com/view/33164372/2sBXietaPi
 - POST /ratings/room/{roomId}
 
 ### Rooms
-GET /rooms/available?checkIn=2026-06-01&checkOut=2026-06-05
+- GET /rooms/available?checkIn=2026-06-01&checkOut=2026-06-05
 
 ### Bookings
 - GET /bookings/room/{roomId}/occupied-dates
