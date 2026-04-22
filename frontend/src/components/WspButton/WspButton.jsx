@@ -12,16 +12,11 @@ const WA_DEFAULT_MESSAGE = encodeURIComponent(
     '¡Hola! Tengo una consulta sobre un producto en Digital Booking.'
 )
 
-// componente flotante de WhatsApp — HU #34
-// se monta una sola vez en App.jsx, fuera del <main>, para que flote
-// sobre todas las páginas sin importar la ruta activa
-// no requiere autenticación — la HU lo especifica explícitamente
+// componente flotante de WhatsApp
+// se monta una sola vez en App.jsx, fuera del <main>, para que flote sobre cualquier página
 const WhatsAppButton = () => {
 
     // showTooltip controla el mensaje de confirmación visual
-    // reemplaza la "notificación de éxito" que pide la HU — no podemos saber
-    // desde el frontend si WhatsApp realmente envió el mensaje (abre pestaña externa)
-    // pero sí podemos confirmarle al usuario que la acción se disparó
     const [showTooltip, setShowTooltip] = useState(false)
 
     // showError controla el mensaje de error cuando el número no es válido
@@ -30,7 +25,6 @@ const WhatsAppButton = () => {
 
     const handleClick = () => {
         // validación básica del número — debe tener entre 10 y 15 dígitos
-        // cubre el criterio de "manejo de errores si el número no es válido"
         if (!WA_NUMBER || WA_NUMBER.replace(/\D/g, '').length < 10) {
             setShowError(true)
             setTimeout(() => setShowError(false), 3000)
@@ -42,7 +36,7 @@ const WhatsAppButton = () => {
             // funciona en móvil (abre la app) y en desktop (abre WhatsApp Web)
             // target="_blank" + rel="noopener noreferrer" es seguridad estándar:
             // noopener evita que la nueva pestaña pueda acceder a window.opener
-            // noreferrer oculta el referrer header (privacidad — criterio de la HU)
+            // noreferrer oculta el referrer header
             const url = `https://wa.me/${WA_NUMBER}?text=${WA_DEFAULT_MESSAGE}`
             window.open(url, '_blank', 'noopener,noreferrer')
 
@@ -60,7 +54,6 @@ const WhatsAppButton = () => {
 
     return (
         // el botón vive en position: fixed — independiente del scroll y del layout
-        // bottom + right están definidos en el CSS con las posiciones exactas que pide la HU
         <div className="wa-button__wrapper">
 
             {/* tooltip de éxito — aparece encima del botón al hacer click */}
@@ -84,8 +77,7 @@ const WhatsAppButton = () => {
                 // title accesible para lectores de pantalla y hover en desktop
                 title="Contactar por WhatsApp"
             >
-                {/* SVG oficial del logo de WhatsApp — sin dependencia de librería de íconos
-                    viewBox="0 0 24 24" es el estándar de Material Icons / SimpleIcons */}
+                {/* SVG oficial del logo de WhatsApp */}
                 <svg
                     className="wa-button__icon"
                     viewBox="0 0 24 24"

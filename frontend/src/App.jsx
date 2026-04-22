@@ -82,10 +82,7 @@ const App = () => {
           {/* footer siempre visible */}
           <Footer />
 
-          {/* botón flotante de WhatsApp — HU #34
-          va fuera del <main> para que no afecte el flujo del layout
-          position: fixed en el CSS lo ancla al viewport independientemente del scroll
-          no requiere autenticación — visible para todos los usuarios */}
+          {/* botón flotante de WhatsApp*/}
           <WspButton />
 
         </div>
