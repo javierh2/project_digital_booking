@@ -252,6 +252,6 @@ http://localhost:5173
 ---
 ## 🎥 Demos de la aplicación
 
-![Demo del home](assets/home.gif)
+![Demo del home](assets/user_test.gif)
 
-![Demo de la creacion de habitación](assets/createroom.gif)
+![Demo de la creacion de habitación](assets/admin_test.gif)
