@@ -41,6 +41,14 @@ public class UserService {
         return convertToResponseDTO(saved);
     }
 
+    // resuelve el userId a partir del email del token JWT
+    // usado por otros servicios/controllers que necesitan el ID del usuario autenticado
+    public Long getUserIdByEmail(String email) {
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"))
+            .getId();
+    }
+
     private UserResponseDTO convertToResponseDTO(User user) {
         return UserResponseDTO.builder()
                 .id(user.getId())

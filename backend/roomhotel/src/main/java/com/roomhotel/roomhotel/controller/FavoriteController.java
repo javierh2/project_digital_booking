@@ -2,12 +2,11 @@ package com.roomhotel.roomhotel.controller;
 
 import com.roomhotel.roomhotel.dto.RoomResponseDTO;
 import com.roomhotel.roomhotel.service.FavoriteService;
+import com.roomhotel.roomhotel.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import com.roomhotel.roomhotel.repository.UserRepository;
-import com.roomhotel.roomhotel.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -17,11 +16,11 @@ import java.util.List;
 public class FavoriteController {
 
     private final FavoriteService favoriteService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public FavoriteController(FavoriteService favoriteService, UserRepository userRepository) {
+    public FavoriteController(FavoriteService favoriteService, UserService userService) {
         this.favoriteService = favoriteService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     // @AuthenticationPrincipal inyecta el UserDetails del token JWT
@@ -32,7 +31,7 @@ public class FavoriteController {
     @GetMapping
     public ResponseEntity<List<RoomResponseDTO>> getFavorites(
             @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = resolveUserId(userDetails);
+        Long userId = userService.getUserIdByEmail(userDetails.getUsername());
         return ResponseEntity.ok(favoriteService.getFavoriteRooms(userId));
     }
 
@@ -42,7 +41,7 @@ public class FavoriteController {
     @GetMapping("/ids")
     public ResponseEntity<List<Long>> getFavoriteIds(
             @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = resolveUserId(userDetails);
+        Long userId = userService.getUserIdByEmail(userDetails.getUsername());
         return ResponseEntity.ok(favoriteService.getFavoriteRoomIds(userId));
     }
 
@@ -51,7 +50,7 @@ public class FavoriteController {
     public ResponseEntity<Void> addFavorite(
             @PathVariable Long roomId,
             @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = resolveUserId(userDetails);
+        Long userId = userService.getUserIdByEmail(userDetails.getUsername());
         favoriteService.addFavorite(userId, roomId);
         return ResponseEntity.ok().build();
     }
@@ -61,17 +60,9 @@ public class FavoriteController {
     public ResponseEntity<Void> removeFavorite(
             @PathVariable Long roomId,
             @AuthenticationPrincipal UserDetails userDetails) {
-        Long userId = resolveUserId(userDetails);
+        Long userId = userService.getUserIdByEmail(userDetails.getUsername());
         favoriteService.removeFavorite(userId, roomId);
         return ResponseEntity.noContent().build();
     }
 
-    // helper privado — traduce el email del UserDetails al userId de la DB
-    // @AuthenticationPrincipal da el username (email), no el id
-    // necesitamos el id para las queries de Favorite
-    private Long resolveUserId(UserDetails userDetails) {
-        return userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"))
-                .getId();
-    }
 }
