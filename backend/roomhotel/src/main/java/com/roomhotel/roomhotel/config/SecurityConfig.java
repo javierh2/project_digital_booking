@@ -78,7 +78,7 @@ public class SecurityConfig {
 
                         // públicos sin token
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
+
 
                         // rooms — más específico ANTES que el wildcard
                         .requestMatchers(HttpMethod.GET, "/api/rooms/available").permitAll()
@@ -92,6 +92,7 @@ public class SecurityConfig {
                         // bookings — occupied-dates público, POST autenticado
                         .requestMatchers(HttpMethod.GET, "/api/bookings/room/*/occupied-dates").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/bookings").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/bookings/my-bookings").authenticated()
 
                         // ratings — can-rate ANTES que el wildcard GET público
                         .requestMatchers(HttpMethod.GET, "/api/ratings/room/*/can-rate").authenticated()
@@ -113,8 +114,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/users/*/role").hasRole("ADMIN")
 
                         .anyRequest().authenticated())
-                // Desactivamos el frameOptions para que la consola H2 funcione en el browser
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+
                 // registro del filtro JWT para que se ejecute antes del filtro de autenticación
                 // estándar de Spring Security.
                 .authenticationProvider(authenticationProvider())

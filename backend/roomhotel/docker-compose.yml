@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: digitalbooking_db
+    # variables de entorno que PostgreSQL usa al crear la DB por primera vez
+    environment:
+      POSTGRES_DB: digitalbooking
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpassword
+    ports:
+      # puerto_local:puerto_container
+      # 5433 en local para no chocar con un Postgres que ya tengas instalado
+      - "5433:5432"
+    volumes:
+      # volumen nombrado: los datos persisten aunque pares el container
+      # sin esto cada docker-compose up empieza con la DB vacía
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

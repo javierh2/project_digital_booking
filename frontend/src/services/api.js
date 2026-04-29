@@ -42,7 +42,16 @@ export const apiRequest = async (endpoint, options = {}) => {
         const error = await response.json().catch(() => ({}))
         throw new Error(error.message || `Error ${response.status}`)
     }
-    return response.json()
+
+
+    // 204 No Content es la respuesta correcta de un DELETE exitoso —
+    // no tiene cuerpo, intentar .json() sobre una respuesta vacía lanza
+    // "Unexpected end of JSON input". El check de Content-Length y
+    // content-type cubre también futuros endpoints que devuelvan 200 sin cuerpo
+    const contentType = response.headers.get("content-type")
+    const hasBody = contentType && contentType.includes("application/json")
+
+    return hasBody ? response.json() : null
 }
 
 export { BASE_URL }
