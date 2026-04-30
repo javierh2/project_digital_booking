@@ -31,14 +31,14 @@ El proyecto modela un sistema real de gestión hotelera con flujo completo end-t
 - Panel de administración para control del contenido
 
 ### 🔐 Autenticación y seguridad
-- Autenticación basada en JWT (stateless)
+- Autenticación basada en JWT (sin estado en servidor - stateless)
 - Control de acceso por roles (USER / ADMIN)
 - Protección de endpoints mediante Spring Security
 
 ### 🏨 Reservas
 - Creación de reservas asociadas a usuarios autenticados
 - Validación de disponibilidad en tiempo real
-- Prevención de solapamiento de reservas (overbooking)
+- Prevención de solapamientos de reservas (overbooking)
 - Respuesta de error controlada ante conflictos (HTTP 409)
 - Notificaciones por email al confirmar la reserva
 
@@ -79,7 +79,7 @@ El proyecto modela un sistema real de gestión hotelera con flujo completo end-t
 El sistema sigue una arquitectura en capas:
 
 - Frontend: React (interfaz de usuario)
-- API REST: Spring Boot (controladores)
+- API REST: Spring Boot (controladores y endpoints)
 - Capa de servicios: lógica de negocio
 - Capa de persistencia: JPA / Hibernate
 - Base de datos: PostgreSQL
@@ -104,19 +104,28 @@ La autenticación se gestiona mediante JWT, validado en cada request a través d
 
 ---
 
-# 🔌  API REST
+## 🔌 API REST (principales endpoints)
 
-POST /api/auth/register **&** POST /api/auth/login **->** creación y login de usuario
+### Autenticación
+- POST /api/auth/register → Registro de usuario
+- POST /api/auth/login → Inicio de sesión
 
-GET, POST, PUT, DELETE **->** /api/rooms
+### Habitaciones
+- GET /api/rooms → Listado de habitaciones
+- POST /api/rooms → Crear habitación (ADMIN)
+- PUT /api/rooms/{id} → Actualizar habitación (ADMIN)
+- DELETE /api/rooms/{id} → Eliminar habitación (ADMIN)
 
-GET, POST, DELETE **->** /api/categories
+### Reservas
+- POST /api/bookings → Crear reserva
+- GET /api/bookings/my → Reservas del usuario
 
-GET, POST, DELETE **->** /api/features
+### Otros recursos
+- /api/categories
+- /api/features
+- /api/users (solo ADMIN)
 
-**Operaciones de usuario administrativo bajo ->** /api/users
-
-Para ver documentación completa:
+📄 Documentación completa:
 https://documenter.getpostman.com/view/33164372/2sBXietaPi
 
 ---
