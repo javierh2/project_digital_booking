@@ -74,7 +74,7 @@ password: admin1234
 - Vite como herramienta de build
 
 ### Base de datos
-- PostgreSQL (Supabase) como base de datos relacional
+- PostgreSQL como base de datos relacional en la nube (Supabase)
 - Desplegada mediante Docker Compose con volumen persistente
 
 ### DevOps y herramientas
@@ -93,6 +93,9 @@ El sistema sigue una arquitectura en capas:
 - Capa de servicios: lógica de negocio
 - Capa de persistencia: JPA / Hibernate
 - Base de datos: PostgreSQL
+- Render (deploy de backend)
+- Vercel (deploy de frontend)
+- Supabase (base de datos)
 
 La autenticación se gestiona mediante JWT, validado en cada request a través de Spring Security.
 
