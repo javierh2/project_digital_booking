@@ -1,4 +1,7 @@
-const BASE_URL = "http://localhost:8080/api"
+// BASE_URL lee la variable de entorno de Vite en producción
+// si no está definida (desarrollo local) usa localhost como fallback
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api"
+
 
 // token del localStorage
 // Si algún día cambia la key "db_user", solo se cambia aquí

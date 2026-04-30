@@ -2,6 +2,9 @@ package com.roomhotel.roomhotel.config;
 
 import com.roomhotel.roomhotel.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +21,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -72,27 +78,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // CSRF no aplica en APIs REST sin cookies de sesión
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
                         // públicos sin token
+
                         .requestMatchers("/api/auth/**").permitAll()
-
-
                         // rooms — más específico ANTES que el wildcard
+
                         .requestMatchers(HttpMethod.GET, "/api/rooms/available").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rooms/random").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rooms/**").permitAll()
-
                         // features y categories
+
                         .requestMatchers(HttpMethod.GET, "/api/features/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-
                         // bookings — occupied-dates público, POST autenticado
+
                         .requestMatchers(HttpMethod.GET, "/api/bookings/room/*/occupied-dates").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/bookings").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/bookings/my-bookings").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/bookings/my").authenticated()
 
                         // ratings — can-rate ANTES que el wildcard GET público
                         .requestMatchers(HttpMethod.GET, "/api/ratings/room/*/can-rate").authenticated()
@@ -100,6 +107,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/ratings/**").authenticated()
 
                         // favoritos — todos autenticados
+
                         .requestMatchers("/api/favorites/**").authenticated()
 
                         // admin — ROLE_ADMIN
@@ -121,5 +129,36 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build(); // construye la cadena de filtros de seguridad con la configuración definida
+    }
+
+        // CORS centralizado — reemplaza los @CrossOrigin en cada controller
+        // allowedOriginPatterns en lugar de allowedOrigins para soportar credenciales
+        // el patrón *.vercel.app cubre cualquier URL de preview que Vercel genere
+        // localhost:5173 se mantiene para desarrollo local sin cambiar nada
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // orígenes permitidos — localhost para desarrollo, Vercel para producción
+        // usamos setAllowedOriginPatterns en lugar de setAllowedOrigins porque
+        // allowedOrigins no es compatible con allowCredentials(true)
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:5173",
+                "https://*.vercel.app"
+        ));
+
+        // métodos HTTP permitidos
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // headers que el frontend puede enviar — Authorization es crítico para JWT
+        config.setAllowedHeaders(List.of("*"));
+
+        // permite que el browser envíe cookies y el header Authorization
+        config.setAllowCredentials(true);
+
+        // aplica esta configuración a todos los endpoints
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
