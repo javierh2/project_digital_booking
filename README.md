@@ -1,106 +1,107 @@
 # 🏨 Digital Booking
 
-![Java](https://img.shields.io/badge/Java-21-orange)
-![Spring Boot](https://img.shields.io/badge/SpringBoot-3.2-green)
-![React](https://img.shields.io/badge/React-19-blue)
-![Vite](https://img.shields.io/badge/Vite-7-purple)
-![Database](https://img.shields.io/badge/Database-H2-lightgrey)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) 
 
-Aplicación **Full Stack de reservas** desarrollada con **Java Spring Boot y React**.
+Aplicación Full Stack de reservas hoteleras que implementa autenticación JWT, gestión de usuarios con roles y un sistema de reservas con validación de disponibilidad en tiempo real, incluyendo prevención de solapamientos (overbooking) y notificaciones por email.
 
-El proyecto simula una plataforma de **gestión y visualización de habitaciones de hotel**, permitiendo a los usuarios explorar productos y a los administradores gestionarlos mediante un panel de administración.
+Desarrollada con Java Spring Boot en el backend, React en el frontend y PostgreSQL como base de datos, incorpora funcionalidades avanzadas como favoritos con actualización optimista, sistema de valoraciones dinámicas y calendario interactivo con disponibilidad en tiempo real.
 
----
-
-# 📌 Descripción del Proyecto
-
-**Digital Booking** es una aplicación web desarrollada como parte de un desafío profesional Full Stack.
-Durante **Sprints** se implementó una evolución completa del sistema agregando explícitos requisitos y características de funcionalidad:
-
-• Visualización de habitaciones  
-• Detalle de cada habitación  
-• Panel de administración  
-• Crear habitaciones  
-• Eliminar habitaciones  
-• Paginación de resultados  
-• Galería de imágenes  
-• Sistema de autenticación con JWT  
-• Gestión de usuarios y roles  
-• Categorías y características de productos  
-• Panel de administración avanzado  
-• Notificaciones por email  
-• Seguridad completa con Spring Security  
-• Crear reservas asociadas a usuarios  
-• Validar disponibilidad por fechas  
-• Evitar conflictos de reservas  
-• Gestión de reservas y favoritos  
-• Bloque fijo de políticas del producto  
-• Posibilidad de compartir el producto en variadas plataformas  
-• Capacidad de puntuar el producto con posibilidad de comentar
-• Historial de reservas
-• Integración completa con seguridad JWT
-
-
-
-Arquitectura general:
-
-```
-React Frontend
-      ↓
-Spring Boot + Security + JWT
-      ↓
-Base de Datos H2
-```
+El proyecto modela un sistema real de gestión hotelera con flujo completo end-to-end, desde la búsqueda hasta la confirmación de reservas.
 
 ---
 
-# 🧰 Tecnologías Utilizadas
+## 🚀 Funcionalidades principales
 
-| Capa | Tecnología |
-|-----|-------------|
-Backend | Java 21 |
-Framework | Spring Boot |
-Seguridad | Spring Security + JWT |
-Persistencia | Spring Data JPA / Hibernate |
-Base de datos | H2 |
-Email | Spring Mail + Mailtrap |
-Frontend | React 19 |
-Estado global | Context API |
-Build Tool | Vite |
-Routing | React Router DOM |
-Testing | Postman |
-Control de versiones | Git + GitHub |
+### 👤 Usuario
+- Exploración de habitaciones con listado paginado
+- Visualización detallada de cada habitación con galería de imágenes
+- Sistema de valoraciones con puntuación y comentarios
+- Gestión de favoritos con actualización optimista
+- Historial de reservas del usuario
 
----
+### 🛠️ Administrador
+- CRUD completo de habitaciones y categorías
+- Gestión de usuarios y asignación de roles
+- Panel de administración para control del contenido
 
-# 🎨 Identidad de Marca
+### 🔐 Autenticación y seguridad
+- Autenticación basada en JWT (stateless)
+- Control de acceso por roles (USER / ADMIN)
+- Protección de endpoints mediante Spring Security
 
-El proyecto incluye una **identidad visual definida** con logotipo y paleta de colores.
+### 🏨 Reservas
+- Creación de reservas asociadas a usuarios autenticados
+- Validación de disponibilidad en tiempo real
+- Prevención de solapamiento de reservas (overbooking)
+- Respuesta de error controlada ante conflictos (HTTP 409)
+- Notificaciones por email al confirmar la reserva
 
-| Color | Código | Uso |
-|------|------|------|
-Cream | #F9F3EE | Fondo principal |
-Navy | #2C3E50 | Header y textos |
-Terracotta | #C47E5A | Botones principales |
-Terracotta Dark | #B06A45 | Hover botones |
-Gray | #9E8E82 | Textos secundarios |
-Blush | #EFE4D9 | Bordes |
-
-Estos colores buscan transmitir **calidez, elegancia y confianza**, alineados con la estética del sector hotelero.
+### ⭐ Experiencia de usuario
+- Calendario interactivo con fechas disponibles y ocupadas
+- Navegación protegida (Protected Routes)
+- Compartir habitaciones en plataformas externas
 
 ---
 
-# ⚙️ Arquitectura Backend
+## 🧰 Stack tecnológico
 
-```
-config
-controller
-dto
-entity
-repository
-service
-exception
-```
+### Backend
+- Java 21 + Spring Boot para desarrollo de API REST
+- Spring Security para autenticación y autorización
+- JWT para autenticación stateless
+- Spring Data JPA / Hibernate para persistencia de datos
+
+### Frontend
+- React 19 para construcción de interfaces
+- React Router DOM para navegación
+- Context API para manejo de estado global
+- Vite como herramienta de build
+
+### Base de datos
+- PostgreSQL como base de datos relacional
+- Desplegada mediante Docker Compose con volumen persistente
+
+### DevOps y herramientas
+- Docker Compose para entorno local
+- Postman para testing manual de endpoints
+- JUnit 5 + Mockito para testing unitario
+- Git y GitHub para control de versiones
+
+
+## 🏗️ Arquitectura
+
+El sistema sigue una arquitectura en capas:
+
+- Frontend: React (interfaz de usuario)
+- API REST: Spring Boot (controladores)
+- Capa de servicios: lógica de negocio
+- Capa de persistencia: JPA / Hibernate
+- Base de datos: PostgreSQL
+
+La autenticación se gestiona mediante JWT, validado en cada request a través de Spring Security.
+
+---
+
+## 🧠 Decisiones Técnicas
+
+- Se utilizó JWT para implementar autenticación sin estado en servidor, evitando sesiones y facilitando la escalabilidad del sistema.
+
+- La lógica de reservas fue diseñada para prevenir solapamientos (overbooking), validando disponibilidad en tiempo real y devolviendo errores controlados (HTTP 409) ante conflictos.
+
+- El envío de emails se desacopló de la lógica principal mediante un bloque try/catch independiente, evitando que fallos externos afecten la persistencia de reservas.
+
+- Se migró de H2 a PostgreSQL, desplegado mediante Docker Compose, para garantizar un entorno reproducible y más cercano a producción.
+
+- Se adoptó una arquitectura en capas para separar responsabilidades entre controladores, servicios y persistencia.
+
+- Se implementaron tests unitarios con JUnit y Mockito para validar la lógica de reservas, aislando dependencias externas como base de datos y servicios de email.
+
 ---
 
 # 🔌  API REST
@@ -120,31 +121,14 @@ https://documenter.getpostman.com/view/33164372/2sBXietaPi
 
 ---
 
-# 💻 Estructura Frontend
+## 🎯 Qué demuestra este proyecto
 
-```
-src
- ├── components
- ├── pages
- ├── services
- ├── context
-
-```
----
-
-# 🔄 Flujo de Datos
-
-### Usuario
-- Navega productos
-- Guarda favoritos
-- Reserva habitaciones
-- Puntúa y comenta
-- Posibilidad de compartir el producto
-
-### Admin
-- Gestiona productos
-- Controla reservas
-- Administra contenido
+- Desarrollo Full Stack completo (frontend + backend + base de datos)
+- Implementación de autenticación segura con JWT
+- Modelado de lógica de negocio real (sistema de reservas con validación de disponibilidad)
+- Manejo de errores y conflictos mediante respuestas HTTP adecuadas
+- Separación de responsabilidades mediante arquitectura en capas
+- Testing unitario de lógica crítica con aislamiento de dependencias
 
 ---
 
