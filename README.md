@@ -82,7 +82,8 @@ password: admin1234
 - Postman para testing manual de endpoints
 - JUnit 5 + Mockito para testing unitario
 - Git y GitHub para control de versiones
-
+- Render (deploy de backend)
+- Vercel (deploy de frontend)
 
 ## 🏗️ Arquitectura
 
@@ -93,9 +94,6 @@ El sistema sigue una arquitectura en capas:
 - Capa de servicios: lógica de negocio
 - Capa de persistencia: JPA / Hibernate
 - Base de datos: PostgreSQL
-- Render (deploy de backend)
-- Vercel (deploy de frontend)
-- Supabase (base de datos)
 
 La autenticación se gestiona mediante JWT, validado en cada request a través de Spring Security.
 
